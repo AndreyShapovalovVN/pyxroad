@@ -2,7 +2,7 @@
 X-Road (Trembita) client
 =====
 
-:Fork: https://github.com/City-of-Helsinki/pyxroad
+:Forked from: https://github.com/City-of-Helsinki/pyxroad
 :Version: 1.1.0
 :Web: https://trembita.gov.ua
 :Download: https://github.com/AndreyShapovalovVN/pyxroad.git
