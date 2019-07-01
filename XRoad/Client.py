@@ -11,18 +11,24 @@ class XRoadPlugin(zeep.Plugin):
         self.xroad_client = xroad_client
 
     def ingress(self, envelope, http_headers, operation):
-        header = envelope.find('{http://schemas.xmlsoap.org/soap/envelope/}Header')
+        header = envelope.find(
+            '{http://schemas.xmlsoap.org/soap/envelope/}Header')
+        if not header:
+            return envelope, http_headers
+
         remove_elements = ['requestHash', 'protocolVersion', 'issue']
         for el_name in remove_elements:
             el = header.find('{http://x-road.eu/xsd/xroad.xsd}%s' % el_name)
             if el is not None:
                 header.remove(el)
-        # print(etree.tostring(envelope, pretty_print=True).decode('utf8'))
         return envelope, http_headers
 
     def egress(self, envelope, http_headers, operation, binding_options):
         # Set serviceCode based on the SOAP request
-        header = envelope.find('{http://schemas.xmlsoap.org/soap/envelope/}Header')
+        header = envelope.find(
+            '{http://schemas.xmlsoap.org/soap/envelope/}Header')
+        if not header:
+            return envelope, http_headers
 
         el = header.find('{http://x-road.eu/xsd/xroad.xsd}id')
         el.text = uuid.uuid4().hex
@@ -39,7 +45,6 @@ class XRoadPlugin(zeep.Plugin):
                 header.remove(el)
 
         binding_options['address'] = self.xroad_client.security_server_url
-        # print(etree.tostring(envelope, pretty_print=True).decode('utf8'))
         return envelope, http_headers
 
 
@@ -70,7 +75,6 @@ class Client(zeep.Client):
                  protocolVersion=4.0,
                  userId='?', id='?',
                  *args, **kwargs):
-
         self.security_server_url = wsdl
 
         client = client.split('.')
