@@ -13,7 +13,7 @@ class XRoadPlugin(zeep.Plugin):
     def ingress(self, envelope, http_headers, operation):
         header = envelope.find(
             '{http://schemas.xmlsoap.org/soap/envelope/}Header')
-        if not header:
+        if header is None:
             return envelope, http_headers
 
         remove_elements = ['requestHash', 'protocolVersion', 'issue']
@@ -27,7 +27,7 @@ class XRoadPlugin(zeep.Plugin):
         # Set serviceCode based on the SOAP request
         header = envelope.find(
             '{http://schemas.xmlsoap.org/soap/envelope/}Header')
-        if not header:
+        if header is None:
             return envelope, http_headers
 
         el = header.find('{http://x-road.eu/xsd/xroad.xsd}id')
