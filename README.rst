@@ -3,7 +3,7 @@ X-Road (Trembita) client
 =====
 
 :Forked from: https://github.com/City-of-Helsinki/pyxroad
-:Version: 1.1.1
+:Version: 1.1.2
 :Web: https://trembita.gov.ua
 :Download: https://github.com/AndreyShapovalovVN/pyxroad.git
 :Source: https://github.com/AndreyShapovalovVN/pyxroad.git
@@ -38,8 +38,8 @@ _logger = logging.getLogger('XRoad')
 
 c = XRoad.Client(
     'http://<<security server>>',
-    client='SEVDEIR-TEST.GOV.00013480.100001',
-    servise='SEVDEIR-TEST.GOV.00032684.MIA_prod.CheckPassportStatus.v0.1',
+    client='SEVDEIR-TEST/GOV/00013480/100001',
+    servise='SEVDEIR-TEST/GOV/00032684/MIA_prod/CheckPassportStatus/v0.1',
     protocolVersion=4.0,
     userId='?',
     id='?',

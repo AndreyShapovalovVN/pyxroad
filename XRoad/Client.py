@@ -77,20 +77,21 @@ class Client(zeep.Client):
                  *args, **kwargs):
         self.security_server_url = wsdl
 
-        client = client.split('.')
+        client = client.split('/')
         assert len(client) == 4
         self.HEADER['client']['xRoadInstance'] = client[0]
         self.HEADER['client']['memberClass'] = client[1]
         self.HEADER['client']['memberCode'] = client[2]
         self.HEADER['client']['subsystemCode'] = client[3]
 
-        servise = servise.split('.')
+        servise = servise.split('/')
+        assert len(servise) == 6
         self.HEADER['service']['xRoadInstance'] = servise[0]
         self.HEADER['service']['memberClass'] = servise[1]
         self.HEADER['service']['memberCode'] = servise[2]
         self.HEADER['service']['subsystemCode'] = servise[3]
         self.HEADER['service']['serviceCode'] = servise[4]
-        self.HEADER['service']['serviceVersion'] = '.'.join(servise[5:])
+        self.HEADER['service']['serviceVersion'] = servise[5]
 
         self.HEADER['protocolVersion'] = protocolVersion
         self.HEADER['userId'] = userId
