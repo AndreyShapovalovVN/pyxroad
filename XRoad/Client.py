@@ -71,7 +71,7 @@ class Client(zeep.Client):
         'protocolVersion': None
     }
 
-    def __init__(self, wsdl, client=None, servise=None,
+    def __init__(self, wsdl, client=None, service=None,
                  protocolVersion=4.0,
                  userId='?', id='?',
                  *args, **kwargs):
@@ -84,14 +84,14 @@ class Client(zeep.Client):
         self.HEADER['client']['memberCode'] = client[2]
         self.HEADER['client']['subsystemCode'] = client[3]
 
-        servise = servise.split('/')
-        assert len(servise) == 6
-        self.HEADER['service']['xRoadInstance'] = servise[0]
-        self.HEADER['service']['memberClass'] = servise[1]
-        self.HEADER['service']['memberCode'] = servise[2]
-        self.HEADER['service']['subsystemCode'] = servise[3]
-        self.HEADER['service']['serviceCode'] = servise[4]
-        self.HEADER['service']['serviceVersion'] = servise[5]
+        service = service.split('/')
+        assert len(service) == 6
+        self.HEADER['service']['xRoadInstance'] = service[0]
+        self.HEADER['service']['memberClass'] = service[1]
+        self.HEADER['service']['memberCode'] = service[2]
+        self.HEADER['service']['subsystemCode'] = service[3]
+        self.HEADER['service']['serviceCode'] = service[4]
+        self.HEADER['service']['serviceVersion'] = service[5]
 
         self.HEADER['protocolVersion'] = protocolVersion
         self.HEADER['userId'] = userId
