@@ -85,13 +85,13 @@ class Client(zeep.Client):
         self.HEADER['client']['subsystemCode'] = client[3]
 
         service = service.split('/')
-        assert len(service) == 6
         self.HEADER['service']['xRoadInstance'] = service[0]
         self.HEADER['service']['memberClass'] = service[1]
         self.HEADER['service']['memberCode'] = service[2]
         self.HEADER['service']['subsystemCode'] = service[3]
         self.HEADER['service']['serviceCode'] = service[4]
-        self.HEADER['service']['serviceVersion'] = service[5]
+        if len(service) > 5:
+            self.HEADER['service']['serviceVersion'] = service[5]
 
         self.HEADER['protocolVersion'] = protocolVersion
         self.HEADER['userId'] = userId
