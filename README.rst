@@ -40,7 +40,7 @@
     c = XRoad.Client(
         "http://security_server",
         client='SEVDEIR-TEST/GOV/00013480/100001',
-        servise='SEVDEIR-TEST/GOV/00032684/MIA_prod/CheckPassportStatus/v0.1',
+        serviсe='SEVDEIR-TEST/GOV/00032684/MIA_prod/CheckPassportStatus/v0.1',
         protocolVersion=4.0,
         userId='?',
         id='?',
