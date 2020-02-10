@@ -5,6 +5,46 @@ import logging
 
 _logger = logging.getLogger('XRoad')
 
+header = xsd.ComplexType(
+    [xsd.Element(
+        '{http://x-road.eu/xsd/xroad.xsd}client',
+        xsd.ComplexType(
+            [xsd.Attribute('{http://x-road.eu/xsd/identifiers}'
+                           'objectType', xsd.String()),
+             xsd.Element('{http://x-road.eu/xsd/identifiers}'
+                         'xRoadInstance', xsd.String()),
+             xsd.Element('{http://x-road.eu/xsd/identifiers}'
+                         'memberClass', xsd.String()),
+             xsd.Element('{http://x-road.eu/xsd/identifiers}'
+                         'memberCode', xsd.String()),
+             xsd.Element('{http://x-road.eu/xsd/identifiers}'
+                         'subsystemCode', xsd.String()),
+             ])),
+        xsd.Element(
+            '{http://x-road.eu/xsd/xroad.xsd}service',
+            xsd.ComplexType(
+                [xsd.Attribute('{http://x-road.eu/xsd/identifiers}'
+                               'objectType', xsd.String()),
+                 xsd.Element('{http://x-road.eu/xsd/identifiers}'
+                             'xRoadInstance', xsd.String()),
+                 xsd.Element('{http://x-road.eu/xsd/identifiers}'
+                             'memberClass', xsd.String()),
+                 xsd.Element('{http://x-road.eu/xsd/identifiers}'
+                             'memberCode', xsd.String()),
+                 xsd.Element('{http://x-road.eu/xsd/identifiers}'
+                             'subsystemCode', xsd.String()),
+                 xsd.Element('{http://x-road.eu/xsd/identifiers}'
+                             'serviceCode', xsd.String()),
+                 ]), ),
+        xsd.Element('{http://x-road.eu/xsd/xroad.xsd}'
+                    'userId', xsd.String()),
+        xsd.Element('{http://x-road.eu/xsd/xroad.xsd}'
+                    'id', xsd.String()),
+        xsd.Element('{http://x-road.eu/xsd/xroad.xsd}'
+                    'protocolVersion', xsd.String()),
+    ],
+)
+
 
 class XRoadPlugin(Plugin):
     def __init__(self, xroad_client):
@@ -16,9 +56,8 @@ class XRoadPlugin(Plugin):
         if header is None:
             return envelope, http_headers
 
-        remove_elements = ['requestHash', 'protocolVersion', 'issue']
-        for el_name in remove_elements:
-            el = header.find('{http://x-road.eu/xsd/xroad.xsd}%s' % el_name)
+        for el_name in ['requestHash', 'protocolVersion', 'issue']:
+            el = header.find('xro:%s' % el_name)
             if el is not None:
                 header.remove(el)
         return envelope, http_headers
@@ -30,20 +69,13 @@ class XRoadPlugin(Plugin):
         if header is None:
             return envelope, http_headers
 
-        el = header.find('{http://x-road.eu/xsd/xroad.xsd}id')
-        el.text = uuid.uuid4().hex
+        el = header.find('xro:id')
+        if not el.text:
+            el.text = uuid.uuid4().hex
 
-        el = header.find('{http://x-road.eu/xsd/xroad.xsd}protocolVersion')
+        el = header.find('xro:protocolVersion')
         el.text = '4.0'
 
-        service = header.find('{http://x-road.eu/xsd/xroad.xsd}service')
-        el = service.find('{http://x-road.eu/xsd/identifiers}serviceCode')
-        if not el.text:
-            el.text = operation.name
-
-        # For some reason, zeep insists on adding WSA elements to the
-        # header. This will only confuse some servers, so remove the
-        # elements here.
         for el in header.getchildren():
             if el.prefix == 'wsa':
                 header.remove(el)
@@ -53,7 +85,6 @@ class XRoadPlugin(Plugin):
 
 
 class XClient(Client):
-    HEADER = {}
 
     def __init__(self, wsdl,
                  client=None, service=None,
@@ -68,36 +99,25 @@ class XClient(Client):
         service.append(None)
         assert len(client) == 4
         assert len(service) in (5, 6)
-
-        self.HEADER.update(
-            {
-                'client': {
-                    'objectType': 'SUBSYSTEM',
-                    'xRoadInstance': client[0],
-                    'memberClass': client[1],
-                    'memberCode': client[2],
-                    'subsystemCode': client[3],
-                },
-                'service': {
-                    'objectType': 'SERVICE',
-                    'xRoadInstance': service[0],
-                    'memberClass': service[1],
-                    'memberCode': service[2],
-                    'subsystemCode': service[3],
-                    'serviceCode': service[4],
-                    'serviceVersion': service[5],
-                },
-                'protocolVersion': protocolVersion,
-                'userId': userId,
-                'id': id,
-            }
-        )
+        client = {
+            'objectType': 'SUBSYSTEM',
+            'xRoadInstance': client[0],
+            'memberClass': client[1],
+            'memberCode': client[2],
+            'subsystemCode': client[3]
+        }
+        service = {
+            'objectType': 'SERVICE',
+            'xRoadInstance': service[0],
+            'memberClass': service[1],
+            'memberCode': service[2],
+            'subsystemCode': service[3],
+            'serviceCode': service[4]
+        }
 
         if '/wsdl' not in wsdl:
             wsdl = requests.Request(
-                'GET',
-                wsdl + '/wsdl',
-                params=self.HEADER['service']
+                'GET', wsdl + '/wsdl', params=service
             ).prepare().url
 
         plugins = kwargs.get('plugins') or []
@@ -109,4 +129,6 @@ class XClient(Client):
         self.set_ns_prefix('xro', "http://x-road.eu/xsd/xroad.xsd")
         self.set_ns_prefix('iden', "http://x-road.eu/xsd/identifiers")
 
-        self.set_default_soapheaders(self.HEADER)
+        self.set_default_soapheaders(
+            header(client=client, service=service, userId=userId, id=id, )
+        )
