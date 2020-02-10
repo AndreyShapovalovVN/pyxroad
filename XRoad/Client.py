@@ -1,12 +1,12 @@
 import requests
-import zeep
+from zeep import Plugin, Client, xsd
 import uuid
 import logging
 
 _logger = logging.getLogger('XRoad')
 
 
-class XRoadPlugin(zeep.Plugin):
+class XRoadPlugin(Plugin):
     def __init__(self, xroad_client):
         self.xroad_client = xroad_client
 
@@ -52,7 +52,7 @@ class XRoadPlugin(zeep.Plugin):
         return envelope, http_headers
 
 
-class Client(zeep.Client):
+class XClient(Client):
     HEADER = {}
 
     def __init__(self, wsdl,
@@ -72,12 +72,14 @@ class Client(zeep.Client):
         self.HEADER.update(
             {
                 'client': {
+                    'objectType': 'SUBSYSTEM',
                     'xRoadInstance': client[0],
                     'memberClass': client[1],
                     'memberCode': client[2],
                     'subsystemCode': client[3],
                 },
                 'service': {
+                    'objectType': 'SERVICE',
                     'xRoadInstance': service[0],
                     'memberClass': service[1],
                     'memberCode': service[2],
