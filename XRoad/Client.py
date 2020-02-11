@@ -69,12 +69,14 @@ class XRoadPlugin(Plugin):
         if header is None:
             return envelope, http_headers
 
+        envelope.id = envelope.id or uuid.uuid4().hex
         el = header.find('xro:id')
-        if not el.text:
-            el.text = uuid.uuid4().hex
+        if el.text == '0':
+            el.text = envelope.id
 
         el = header.find('xro:protocolVersion')
-        el.text = '4.0'
+        if el.text != '4.0':
+            el.text = '4.0'
 
         for el in header.getchildren():
             if el.prefix == 'wsa':
@@ -88,9 +90,9 @@ class XClient(Client):
 
     def __init__(self, wsdl,
                  client=None, service=None,
+                 userId='0000000000',
                  protocolVersion=4.0,
-                 userId='?',
-                 id='?',
+                 id='0',
                  *args, **kwargs):
         self.security_server_url = wsdl
 
@@ -130,5 +132,7 @@ class XClient(Client):
         self.set_ns_prefix('iden', "http://x-road.eu/xsd/identifiers")
 
         self.set_default_soapheaders(
-            header(client=client, service=service, userId=userId, id=id, )
+            header(client=client, service=service,
+                   userId=userId, id=id, protocolVersion=protocolVersion,)
         )
+        self.id = None
