@@ -99,29 +99,22 @@ class XClient(Client):
                  protocolVersion=4.0,
                  id='0',
                  *args, **kwargs):
-
         self.security_server_url = ssu
 
-        client = client.split('/')
-        service = service.split('/')
-        service.append(None)
-        assert len(client) == 4
-        assert len(service) in (5, 6)
-        client = {
-            'objectType': 'SUBSYSTEM',
-            'xRoadInstance': client[0],
-            'memberClass': client[1],
-            'memberCode': client[2],
-            'subsystemCode': client[3]
-        }
-        service = {
-            'objectType': 'SERVICE',
-            'xRoadInstance': service[0],
-            'memberClass': service[1],
-            'memberCode': service[2],
-            'subsystemCode': service[3],
-            'serviceCode': service[4]
-        }
+        addr_fields = (
+            'xRoadInstance',
+            'memberClass',
+            'memberCode',
+            'subsystemCode',
+            'serviceCode',
+            'serviceVersion')
+        service = {addr_fields[i]: val for i, val in
+                   enumerate(service.split('/'))}
+        service['objectType'] = 'SERVICE'
+
+        client = {addr_fields[i]: val for i, val in
+                  enumerate(client.split('/'))}
+        client['objectType'] = 'SUBSYSTEM'
 
         wsdl = requests.Request(
             'GET', ssu + '/wsdl', params=service).prepare().url
@@ -132,13 +125,18 @@ class XClient(Client):
 
         super().__init__(wsdl, *args, **kwargs)
 
-        # self.set_ns_prefix('xro', "http://x-road.eu/xsd/xroad.xsd")
-        # self.set_ns_prefix('iden', "http://x-road.eu/xsd/identifiers")
+        self.set_ns_prefix('xro', "http://x-road.eu/xsd/xroad.xsd")
+        self.set_ns_prefix('iden', "http://x-road.eu/xsd/identifiers")
 
-        self._xroad_header = HEADER(client=client, service=service,
-                   userId=userId, id=id, protocolVersion=protocolVersion, )
-        # self.set_default_soapheaders(
-        #     HEADER(client=client, service=service,
-        #            userId=userId, id=id, protocolVersion=protocolVersion, )
-        # )
+        self.set_default_soapheaders(
+            {
+                'header': {
+                    'client': client,
+                    'service': service,
+                    'userId': userId,
+                    'id': id,
+                    'protocolVersion': '4.0'
+                }
+            }
+        )
         self.id = None
