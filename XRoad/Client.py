@@ -5,51 +5,6 @@ import logging
 
 _logger = logging.getLogger('XRoad')
 
-HEADER = xsd.ComplexType(
-    [
-        xsd.Element(
-            '{http://x-road.eu/xsd/xroad.xsd}client', xsd.ComplexType(
-                [
-                    xsd.Attribute('{http://x-road.eu/xsd/identifiers}'
-                                  'objectType', xsd.String()),
-                    xsd.Element('{http://x-road.eu/xsd/identifiers}'
-                                'xRoadInstance', xsd.String()),
-                    xsd.Element('{http://x-road.eu/xsd/identifiers}'
-                                'memberClass', xsd.String()),
-                    xsd.Element('{http://x-road.eu/xsd/identifiers}'
-                                'memberCode', xsd.String()),
-                    xsd.Element('{http://x-road.eu/xsd/identifiers}'
-                                'subsystemCode', xsd.String()),
-                ]
-            )
-        ),
-        xsd.Element(
-            '{http://x-road.eu/xsd/xroad.xsd}service', xsd.ComplexType(
-                [
-                    xsd.Attribute('{http://x-road.eu/xsd/identifiers}'
-                                  'objectType', xsd.String()),
-                    xsd.Element('{http://x-road.eu/xsd/identifiers}'
-                                'xRoadInstance', xsd.String()),
-                    xsd.Element('{http://x-road.eu/xsd/identifiers}'
-                                'memberClass', xsd.String()),
-                    xsd.Element('{http://x-road.eu/xsd/identifiers}'
-                                'memberCode', xsd.String()),
-                    xsd.Element('{http://x-road.eu/xsd/identifiers}'
-                                'subsystemCode', xsd.String()),
-                    xsd.Element('{http://x-road.eu/xsd/identifiers}'
-                                'serviceCode', xsd.String()),
-                ]
-            ),
-        ),
-        xsd.Element('{http://x-road.eu/xsd/xroad.xsd}'
-                    'userId', xsd.String()),
-        xsd.Element('{http://x-road.eu/xsd/xroad.xsd}'
-                    'id', xsd.String()),
-        xsd.Element('{http://x-road.eu/xsd/xroad.xsd}'
-                    'protocolVersion', xsd.String()),
-    ]
-)
-
 
 class XRoadPlugin(Plugin):
     def __init__(self, xroad_client):
@@ -62,7 +17,7 @@ class XRoadPlugin(Plugin):
             return envelope, http_headers
 
         for el_name in ['requestHash', 'protocolVersion', 'issue']:
-            el = header.find('xro:%s' % el_name)
+            el = header.find('{http://x-road.eu/xsd/xroad.xsd}%s' % el_name)
             if el is not None:
                 header.remove(el)
         return envelope, http_headers
@@ -75,13 +30,12 @@ class XRoadPlugin(Plugin):
             return envelope, http_headers
 
         self.xroad_client.id = self.xroad_client.id or uuid.uuid4().hex
-        el = header.find('xro:id')
+        el = header.find('{http://x-road.eu/xsd/xroad.xsd}id')
         if el.text == '0':
             el.text = self.xroad_client.id
 
-        el = header.find('xro:protocolVersion')
-        if el.text != '4.0':
-            el.text = '4.0'
+        el = header.find('{http://x-road.eu/xsd/xroad.xsd}protocolVersion')
+        el.text = '4.0'
 
         for el in header.getchildren():
             if el.prefix == 'wsa':
