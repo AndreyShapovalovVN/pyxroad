@@ -130,13 +130,11 @@ class XClient(Client):
 
         self.set_default_soapheaders(
             {
-                'header': {
-                    'client': client,
-                    'service': service,
-                    'userId': userId,
-                    'id': id,
-                    'protocolVersion': '4.0'
-                }
+                'client': client,
+                'service': service,
+                'userId': userId,
+                'id': id,
+                'protocolVersion': '4.0'
             }
         )
         self.id = None
