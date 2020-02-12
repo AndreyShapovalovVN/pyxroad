@@ -132,11 +132,13 @@ class XClient(Client):
 
         super().__init__(wsdl, *args, **kwargs)
 
-        self.set_ns_prefix('xro', "http://x-road.eu/xsd/xroad.xsd")
-        self.set_ns_prefix('iden', "http://x-road.eu/xsd/identifiers")
+        # self.set_ns_prefix('xro', "http://x-road.eu/xsd/xroad.xsd")
+        # self.set_ns_prefix('iden', "http://x-road.eu/xsd/identifiers")
 
-        self.set_default_soapheaders(
-            HEADER(client=client, service=service,
+        self._xroad_header = HEADER(client=client, service=service,
                    userId=userId, id=id, protocolVersion=protocolVersion, )
-        )
+        # self.set_default_soapheaders(
+        #     HEADER(client=client, service=service,
+        #            userId=userId, id=id, protocolVersion=protocolVersion, )
+        # )
         self.id = None
