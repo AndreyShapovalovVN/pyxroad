@@ -64,14 +64,16 @@ class XClient(Client):
             'serviceVersion')
         service = {addr_fields[i]: val for i, val in
                    enumerate(service.split('/'))}
+
+        wsdl = requests.Request(
+            'GET', ssu + '/wsdl', params=service).prepare().url
+
         service['objectType'] = 'SERVICE'
 
         client = {addr_fields[i]: val for i, val in
                   enumerate(client.split('/'))}
-        client['objectType'] = 'SUBSYSTEM'
 
-        wsdl = requests.Request(
-            'GET', ssu + '/wsdl', params=service).prepare().url
+        client['objectType'] = 'SUBSYSTEM'
 
         plugins = kwargs.get('plugins') or []
         plugins.append(XRoadPlugin(self))
