@@ -53,6 +53,8 @@ class XClient(Client):
                  protocolVersion=4.0,
                  id='0',
                  *args, **kwargs):
+
+        self._userId = userId
         self.security_server_url = ssu
 
         addr_fields = (
@@ -88,9 +90,17 @@ class XClient(Client):
             {
                 'client': client,
                 'service': service,
-                'userId': userId,
+                'userId': self._userId,
                 'id': id,
                 'protocolVersion': '4.0'
             }
         )
         self.id = None
+
+    @property
+    def userId(self):
+        return self._userId
+
+    @userId.setter
+    def userId(self, value):
+        self._userId = value
