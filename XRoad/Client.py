@@ -103,4 +103,7 @@ class XClient(Client):
 
     @userId.setter
     def userId(self, value):
+        h = self._default_soapheaders
+        h['userId'] = value
+        self.set_default_soapheaders(h)
         self._userId = value
