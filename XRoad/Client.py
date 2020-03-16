@@ -30,10 +30,9 @@ class XRoadPlugin(Plugin):
         if header is None:
             return envelope, http_headers
 
-        self.xroad_client.id = self.xroad_client.id or uuid.uuid4().hex
         el = header.find('{http://x-road.eu/xsd/xroad.xsd}id')
         if el.text == '0':
-            el.text = self.xroad_client.id
+            el.text = uuid.uuid4().hex
 
         el = header.find('{http://x-road.eu/xsd/xroad.xsd}userId')
         if el.text == '0000000000':
