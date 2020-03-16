@@ -32,11 +32,11 @@ class XRoadPlugin(Plugin):
 
         self.xroad_client.id = self.xroad_client.id or uuid.uuid4().hex
         el = header.find('{http://x-road.eu/xsd/xroad.xsd}id')
-        if not el.text:
+        if el.text == '0':
             el.text = self.xroad_client.id
 
         el = header.find('{http://x-road.eu/xsd/xroad.xsd}userId')
-        if not el.text:
+        if el.text == '0000000000':
             client = header.find('{http://x-road.eu/xsd/xroad.xsd}client')
             ssc = client.find('{http://x-road.eu/xsd/identifiers}subsystemCode')
             el.text = ssc.text
@@ -55,7 +55,7 @@ class XClient(Client):
                  client=None, service=None,
                  userId='0000000000',
                  protocolVersion=4.0,
-                 id=None,
+                 id='0',
                  *args, **kwargs):
         self.security_server_url = ssu
 
