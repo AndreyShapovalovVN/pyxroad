@@ -17,7 +17,7 @@ class XRoadPlugin(Plugin):
         if header is None:
             return envelope, http_headers
 
-        for el_name in ['requestHash', 'protocolVersion', 'issue']:
+        for el_name in ['requestHash', 'issue']:
             el = header.find('{http://x-road.eu/xsd/xroad.xsd}%s' % el_name)
             if el is not None:
                 header.remove(el)
@@ -53,7 +53,7 @@ class XClient(Client):
     def __init__(self, ssu,
                  client=None, service=None,
                  userId='0000000000',
-                 protocolVersion=4.0,
+                 protocolVersion='4.0',
                  id='0',
                  *args, **kwargs):
         self.security_server_url = ssu
