@@ -1,7 +1,8 @@
-import requests
-from zeep import Plugin, Client, xsd
-import uuid
 import logging
+import uuid
+
+import requests
+from zeep import Plugin, Client
 
 _logger = logging.getLogger('XRoad')
 
@@ -34,9 +35,6 @@ class XRoadPlugin(Plugin):
         if el.text == '0':
             el.text = self.xroad_client.id
 
-        el = header.find('{http://x-road.eu/xsd/xroad.xsd}protocolVersion')
-        el.text = '4.0'
-
         for el in header.getchildren():
             if el.prefix == 'wsa':
                 header.remove(el)
@@ -54,7 +52,6 @@ class XClient(Client):
                  id='0',
                  *args, **kwargs):
 
-        self._userId = userId
         self.security_server_url = ssu
 
         addr_fields = (
@@ -90,20 +87,30 @@ class XClient(Client):
             {
                 'client': client,
                 'service': service,
-                'userId': self._userId,
+                'userId': userId,
                 'id': id,
-                'protocolVersion': '4.0'
+                'protocolVersion': protocolVersion
             }
         )
-        self.id = None
+        self._id = None
+
+    @property
+    def id(self):
+        return self._default_soapheaders.get('id')
+
+    @id.setter
+    def id(self, value):
+        h = self._default_soapheaders
+        h['id'] = value
+        self.set_default_soapheaders(h)
+        self._id = value
 
     @property
     def userId(self):
-        return self._userId
+        return self._default_soapheaders.get('userId')
 
     @userId.setter
     def userId(self, value):
         h = self._default_soapheaders
         h['userId'] = value
         self.set_default_soapheaders(h)
-        self._userId = value
