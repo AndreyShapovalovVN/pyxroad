@@ -32,8 +32,15 @@ class XRoadPlugin(Plugin):
 
         self.xroad_client.id = self.xroad_client.id or uuid.uuid4().hex
         el = header.find('{http://x-road.eu/xsd/xroad.xsd}id')
-        if el.text == '0':
+        if not el.text:
             el.text = self.xroad_client.id
+
+        el = header.find('{http://x-road.eu/xsd/xroad.xsd}userId')
+        if not el.text:
+            client = header.find('{http://x-road.eu/xsd/xroad.xsd}client')
+            el.text = client.find(
+                '{http://x-road.eu/xsd/identifiers}subsystemCode'
+            ).text
 
         for el in header.getchildren():
             if el.prefix == 'wsa':
@@ -49,7 +56,7 @@ class XClient(Client):
                  client=None, service=None,
                  userId='0000000000',
                  protocolVersion=4.0,
-                 id='0',
+                 id=None,
                  *args, **kwargs):
 
         self.security_server_url = ssu
@@ -92,7 +99,6 @@ class XClient(Client):
                 'protocolVersion': protocolVersion
             }
         )
-        self._id = None
 
     @property
     def id(self):
