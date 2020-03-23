@@ -3,6 +3,8 @@ import uuid
 
 import requests
 from zeep import Plugin, Client
+from zeep.helpers import serialize_object
+
 
 _logger = logging.getLogger('XRoad')
 
@@ -107,7 +109,8 @@ class XClient(Client):
             if kwargs.get('xroad_id'):
                 self.id = kwargs.get('xroad_id')
                 del kwargs['xroad_id']
-            return self.service[service](**kwargs)
+            responce = self.service[service](**kwargs)
+            return serialize_object(responce)
 
     @property
     def id(self):
