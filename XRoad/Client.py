@@ -97,6 +97,15 @@ class XClient(Client):
             }
         )
 
+    def request(self, **kwargs):
+        try:
+            service = self._default_soapheaders.get('service').get('serviceCode')
+        except Exception as err:
+            _logger.error(err)
+            return None
+        else:
+            return self.service[service](**kwargs)
+
     @property
     def id(self):
         return self._default_soapheaders.get('id')
@@ -106,7 +115,6 @@ class XClient(Client):
         h = self._default_soapheaders
         h['id'] = value
         self.set_default_soapheaders(h)
-        self._id = value
 
     @property
     def userId(self):

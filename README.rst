@@ -2,7 +2,7 @@
 ============================
 
 :Forked from: https://github.com/City-of-Helsinki/pyxroad
-:Version: 1.1.5
+:Version: 1.1.6
 :Web: https://trembita.gov.ua
 :Download: https://github.com/AndreyShapovalovVN/pyxroad.git
 :Source: https://github.com/AndreyShapovalovVN/pyxroad.git
@@ -47,7 +47,7 @@
         plugins=[history])
 
     try:
-        response = c.service.CheckPassportStatus(PasNumber='', PasSerial='')
+        response = c.request(PasNumber='', PasSerial='')
     except Exception as err:
         _logger.error(err)
     else:
