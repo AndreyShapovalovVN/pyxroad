@@ -104,6 +104,9 @@ class XClient(Client):
             _logger.error(err)
             return None
         else:
+            if kwargs.get('xroad_id'):
+                self.id = kwargs.get('xroad_id')
+                del kwargs['xroad_id']
             return self.service[service](**kwargs)
 
     @property
