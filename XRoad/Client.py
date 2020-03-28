@@ -4,6 +4,8 @@ import uuid
 import requests
 from zeep import Plugin, Client
 from zeep.helpers import serialize_object
+from zeep.exceptions import Fault
+
 
 
 _logger = logging.getLogger('XRoad')
@@ -109,8 +111,13 @@ class XClient(Client):
             if kwargs.get('xroad_id'):
                 self.id = kwargs.get('xroad_id')
                 del kwargs['xroad_id']
-            responce = self.service[service](**kwargs)
-            return serialize_object(responce)
+            try:
+                responce = self.service[service](**kwargs)
+            except Fault as error:
+                _logger.error('service error %s: %s', error.code, error.message)
+                raise
+            else:
+                return serialize_object(responce)
 
     @property
     def id(self):
