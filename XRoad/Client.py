@@ -1,12 +1,11 @@
 import logging
 import uuid
+from threading import Thread
 
 import requests
 from zeep import Plugin, Client
-from zeep.helpers import serialize_object
 from zeep.exceptions import Fault
-
-
+from zeep.helpers import serialize_object
 
 _logger = logging.getLogger('XRoad')
 
@@ -103,7 +102,8 @@ class XClient(Client):
 
     def request(self, **kwargs):
         try:
-            service = self._default_soapheaders.get('service').get('serviceCode')
+            service = self._default_soapheaders.get('service').get(
+                'serviceCode')
         except Exception as err:
             _logger.error(err)
             return None
@@ -138,3 +138,46 @@ class XClient(Client):
         h = self._default_soapheaders
         h['userId'] = value
         self.set_default_soapheaders(h)
+
+
+class XClientThread(XClient):
+    def __init__(self, **kwargs):
+        self.stop = False
+        self._q_in = None
+        self._q_out = None
+        self._th = {}
+        super().__init__(**kwargs)
+
+    def queue(self, q_in, q_out):
+        self._q_in = q_in
+        self._q_out = q_out
+        return self
+
+    def thread(self, thread=1):
+        if not self._q_in:
+            raise Exception('No incoming queue')
+        if not self._q_out:
+            raise Exception('No outgoing queue')
+        for i in range(thread):
+            self._th.update(
+                {
+                    'Thread_%s' % i: Thread(
+                        name='Thread_%s' % i,
+                        target=self.run,
+                        args=[lambda: self.stop],
+                        daemon=False
+                    )
+                }
+            )
+
+        for ii in self._th.keys():
+            self._th[ii].start()
+
+        return self
+
+    def run(self, stop):
+        while True:
+            if stop:
+                break
+            self._q_out.put(self.request(**self._q_in.get()))
+            self._q_in.task_done()
