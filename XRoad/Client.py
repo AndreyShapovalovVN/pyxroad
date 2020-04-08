@@ -155,8 +155,10 @@ class XClientThread(XClient):
 
     def thread(self, thread=1):
         if not self._q_in:
+            _logger.error('No incoming queue')
             raise Exception('No incoming queue')
         if not self._q_out:
+            _logger.error('No outgoing queue')
             raise Exception('No outgoing queue')
         for i in range(thread):
             self._th.update(
@@ -172,12 +174,16 @@ class XClientThread(XClient):
 
         for ii in self._th.keys():
             self._th[ii].start()
+            _logger.info('Thread: %s started - %s',
+                         self._th[ii].name,
+                         self._th[ii].isAlive())
 
         return self
 
     def run(self, stop):
         while True:
-            if stop:
+            if stop():
+                _logger.info('Thread quit')
                 break
             self._q_out.put(self.request(**self._q_in.get()))
             self._q_in.task_done()
