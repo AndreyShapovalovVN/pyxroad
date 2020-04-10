@@ -185,5 +185,9 @@ class XClientThread(XClient):
             if stop():
                 _logger.info('Thread quit')
                 break
-            self._q_out.put(self.request(**self._q_in.get()))
+            request = self._q_in.get()
+            self._q_out.put({
+                                'request': request,
+                                'responce': self.request(**request),
+                            })
             self._q_in.task_done()
