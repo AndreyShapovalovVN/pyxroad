@@ -56,6 +56,7 @@ class XClient(Client):
                  client=None, service=None,
                  userId='0000000000',
                  id='0',
+                 protocolVersion='4.0',
                  *args, **kwargs):
 
         if not service:
