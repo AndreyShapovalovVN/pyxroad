@@ -55,9 +55,14 @@ class XClient(Client):
     def __init__(self, ssu,
                  client=None, service=None,
                  userId='0000000000',
-                 protocolVersion='4.0',
                  id='0',
                  *args, **kwargs):
+
+        if not service:
+            raise Exception('service - required')
+        if not client:
+            raise Exception('client - required')
+
         self.security_server_url = ssu
 
         addr_fields = (

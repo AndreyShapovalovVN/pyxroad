@@ -24,7 +24,7 @@
 ----------
 ::
 
-    import XRoad
+    from XRoad import XClient
     import logging
     import sys
     from zeep.plugins import HistoryPlugin
@@ -37,19 +37,25 @@
         format='%(asctime)s - %(levelname)s - %(name)s - %(message)s')
     _logger = logging.getLogger('XRoad')
 
-    c = XRoad.Client(
+    c = XClient(
         "http://security_server",
         client='SEVDEIR-TEST/GOV/00013480/100001',
         serviсe='SEVDEIR-TEST/GOV/00032684/MIA_prod/CheckPassportStatus/v0.1',
-        protocolVersion=4.0,
-        userId='?',
-        id='?',
-        plugins=[history])
+        userId = '0123456789',  # Optionals
+        plugins=[history],  # Optionals
+    )
+
+    c.userId = '0123456789'  # Optionals, default {Client subsystemCode}
+    c.id = 'ABCD123456'  # Optionals, default uuid.uuid4().hex
 
     try:
-        response = c.request(PasNumber='', PasSerial='')
+        response = c.request(
+            xroad_id='ABCD123456',  # Optionals priority
+            PasNumber='',
+            PasSerial=''
+        )
     except Exception as err:
         _logger.error(err)
     else:
-        _logger.info(response['body'])
+        _logger.info(response)
 
