@@ -67,6 +67,10 @@ class XClient(Client):
             'subsystemCode',
             'serviceCode',
             'serviceVersion')
+
+        client = {addr_fields[i]: val for i, val in
+                  enumerate(client.split('/'))}
+
         service = {addr_fields[i]: val for i, val in
                    enumerate(service.split('/'))}
 
@@ -74,10 +78,6 @@ class XClient(Client):
             'GET', ssu + '/wsdl', params=service).prepare().url
 
         service['objectType'] = 'SERVICE'
-
-        client = {addr_fields[i]: val for i, val in
-                  enumerate(client.split('/'))}
-
         client['objectType'] = 'SUBSYSTEM'
 
         plugins = kwargs.get('plugins') or []

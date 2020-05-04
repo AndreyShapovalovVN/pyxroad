@@ -1,3 +1,3 @@
-from XRoad.Client import Client
+from .Client import XClient
 
 __version__ = '1.1.6'
