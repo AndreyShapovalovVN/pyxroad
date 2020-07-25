@@ -52,12 +52,7 @@ class XRoadPlugin(Plugin):
 
 class XClient(Client):
 
-    def __init__(self, ssu,
-                 client=None, service=None,
-                 userId='0000000000',
-                 id='0',
-                 protocolVersion='4.0',
-                 *args, **kwargs):
+    def __init__(self, ssu, client, service, *args, **kwargs):
 
         if not service:
             raise Exception('service - required')
@@ -82,6 +77,7 @@ class XClient(Client):
 
         wsdl = requests.Request(
             'GET', ssu + '/wsdl', params=service).prepare().url
+        _logger.debug('wsdl url(%s)', wsdl)
 
         service['objectType'] = 'SERVICE'
         client['objectType'] = 'SUBSYSTEM'
@@ -89,6 +85,7 @@ class XClient(Client):
         plugins = kwargs.get('plugins') or []
         plugins.append(XRoadPlugin(self))
         kwargs['plugins'] = plugins
+        _logger.debug('Plugins (%s)', plugins)
 
         super().__init__(wsdl, *args, **kwargs)
 
@@ -99,30 +96,28 @@ class XClient(Client):
             {
                 'client': client,
                 'service': service,
-                'userId': userId,
-                'id': id,
-                'protocolVersion': protocolVersion
+                'userId': client.get('subsystemCode'),
+                'id': '0',
+                'protocolVersion': '4.0',
             }
         )
+        _logger.debug('Default header (%s)', self._default_soapheaders)
 
     def request(self, **kwargs):
+        service = self._default_soapheaders['service'].get('serviceCode')
+        if kwargs.get('xroad_id'):
+            self.id = kwargs.get('xroad_id')
+            del kwargs['xroad_id']
         try:
-            service = self._default_soapheaders.get('service').get(
-                'serviceCode')
-        except Exception as err:
-            _logger.error(err)
-            return None
+            responce = self.service[service](**kwargs)
+        except Fault as error:
+            _logger.error('service error (%s: %s)', error.code,
+                          error.message)
+            raise
         else:
-            if kwargs.get('xroad_id'):
-                self.id = kwargs.get('xroad_id')
-                del kwargs['xroad_id']
-            try:
-                responce = self.service[service](**kwargs)
-            except Fault as error:
-                _logger.error('service error %s: %s', error.code, error.message)
-                raise
-            else:
-                return serialize_object(responce)
+            SObject = serialize_object(responce)
+            _logger.debug('Response (%s)', SObject)
+            return SObject
 
     @property
     def id(self):
@@ -133,6 +128,7 @@ class XClient(Client):
         h = self._default_soapheaders
         h['id'] = value
         self.set_default_soapheaders(h)
+        _logger.debug('Set (id: %s)', value)
 
     @property
     def userId(self):
@@ -143,3 +139,4 @@ class XClient(Client):
         h = self._default_soapheaders
         h['userId'] = value
         self.set_default_soapheaders(h)
+        _logger.debug('Set (userId: %s)', value)
