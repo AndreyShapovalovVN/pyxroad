@@ -53,6 +53,7 @@ class XRoadPlugin(Plugin):
 class XClient(Client):
 
     def __init__(self, ssu, client, service, *args, **kwargs):
+        self.response = None
 
         if not service:
             raise Exception('service - required')
@@ -109,15 +110,15 @@ class XClient(Client):
             self.id = kwargs.get('xroad_id')
             del kwargs['xroad_id']
         try:
-            responce = self.service[service](**kwargs)
+            response = self.service[service](**kwargs)
         except Fault as error:
             _logger.error('service error (%s: %s)', error.code,
                           error.message)
-            raise
+            raise Fault(error)
         else:
-            SObject = serialize_object(responce)
-            _logger.debug('Response (%s)', SObject)
-            return SObject
+            s_object = serialize_object(response)
+            _logger.debug('Response (%s)', s_object)
+            return s_object
 
     @property
     def id(self):
