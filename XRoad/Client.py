@@ -188,6 +188,7 @@ class XClient(Client):
                         operation.__dict__[put].body,
                         {},
                         put,
-                        report
+                        iter=0,
+                        report=report,
                     )
         return element
