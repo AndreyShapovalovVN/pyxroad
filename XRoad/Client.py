@@ -142,7 +142,7 @@ class XClient(Client):
         self.set_default_soapheaders(h)
         _logger.debug('Set (userId: %s)', value)
 
-    def _element(self, body, responce, parrent, iter=0):
+    def _element(self, body, responce, parrent, iter=0, report=True):
 
         _logger.debug('Recursion depth %s', iter)
 
@@ -162,18 +162,19 @@ class XClient(Client):
 
                 self._element(element, responce[parrent], name, iter=iter)
             else:
-                responce[parrent].update({
-                    name: {
-                        'type': element.type.name,
-                        'is_optional': element.is_optional,
-                        'max_occurs': element.max_occurs,
-                        'min_occurs': element.min_occurs,
-                        'nillable': element.nillable,
-                    }
-                })
+                if report:
+                    responce[parrent].update({
+                        name: {
+                            'type': element.type.name,
+                            'is_optional': element.is_optional,
+                            'max_occurs': element.max_occurs,
+                            'min_occurs': element.min_occurs,
+                            'nillable': element.nillable,
+                        }
+                    })
         return responce
 
-    def wsdl_elements(self, put):
+    def wsdl_elements(self, put, report=True):
         if put not in ('input', 'output'):
             raise ValueError("ValueError ('input', 'output')")
 
@@ -185,5 +186,6 @@ class XClient(Client):
                         operation.__dict__[put].body,
                         {},
                         put,
+                        report
                     )
         return element
