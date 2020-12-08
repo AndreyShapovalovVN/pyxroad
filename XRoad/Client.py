@@ -174,6 +174,9 @@ class XClient(Client):
                             'nillable': element.nillable,
                         }
                     })
+                else:
+                    responce[parrent].update({name: None})
+
         return responce
 
     def wsdl_elements(self, put, report=True):
@@ -192,3 +195,8 @@ class XClient(Client):
                         report=report,
                     )
         return element
+
+    @property
+    def get_input_elements(self):
+        input_element = self.wsdl_elements('input', report=False)
+        return input_element.get('input')
