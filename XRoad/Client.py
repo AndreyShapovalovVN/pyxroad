@@ -156,9 +156,9 @@ class XClient(Client):
             if hasattr(element.type, 'elements_nested'):
 
                 responce[parrent].update({
-                          name: dict(
-                              element.type.elements_nested[0][1].default_value)
-                      })
+                    name: dict(
+                        element.type.elements_nested[0][1].default_value)
+                })
 
                 self._element(element, responce[parrent], name, iter=iter)
             else:
@@ -187,4 +187,3 @@ class XClient(Client):
                         put,
                     )
         return element
-

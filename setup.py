@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='XRoad',
-    version='1.1.6',
+    version='1.2.0',
     description='X-Road (Trembita) client',
     packages=find_packages(),
     include_package_data=True,

@@ -2,7 +2,7 @@
 ============================
 
 :Forked from: https://github.com/City-of-Helsinki/pyxroad
-:Version: 1.1.6
+:Version: 1.2.0
 :Web: https://trembita.gov.ua
 :Download: https://github.com/AndreyShapovalovVN/pyxroad.git
 :Source: https://github.com/AndreyShapovalovVN/pyxroad.git
