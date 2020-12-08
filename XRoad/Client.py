@@ -141,3 +141,50 @@ class XClient(Client):
         h['userId'] = value
         self.set_default_soapheaders(h)
         _logger.debug('Set (userId: %s)', value)
+
+    def _element(self, body, responce, parrent, iter=0):
+
+        _logger.debug('Recursion depth %s', iter)
+
+        if iter == 1000:
+            _logger.error('Emergency exit from recursion')
+            return responce
+        iter += 1
+        responce.update({parrent: {}})
+
+        for name, element in body.type.elements:
+            if hasattr(element.type, 'elements_nested'):
+
+                responce[parrent].update({
+                          name: dict(
+                              element.type.elements_nested[0][1].default_value)
+                      })
+
+                self._element(element, responce[parrent], name, iter=iter)
+            else:
+                responce[parrent].update({
+                    name: {
+                        'type': element.type.name,
+                        'is_optional': element.is_optional,
+                        'max_occurs': element.max_occurs,
+                        'min_occurs': element.min_occurs,
+                        'nillable': element.nillable,
+                    }
+                })
+        return responce
+
+    def wsdl_elements(self, put):
+        if put not in ('input', 'output'):
+            raise ValueError("ValueError ('input', 'output')")
+
+        element = {}
+        for service in self.wsdl.services.values():
+            for port in service.ports.values():
+                for operation in port.binding._operations.values():
+                    element = self._element(
+                        operation.__dict__[put].body,
+                        {},
+                        put,
+                    )
+        return element
+
