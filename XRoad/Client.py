@@ -160,7 +160,9 @@ class XClient(Client):
                         element.type.elements_nested[0][1].default_value)
                 })
 
-                self._element(element, responce[parrent], name, iter=iter)
+                self._element(
+                    element, responce[parrent], name, iter=iter, report=report
+                )
             else:
                 if report:
                     responce[parrent].update({
