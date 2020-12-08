@@ -83,10 +83,10 @@ class XClient(Client):
         service['objectType'] = 'SERVICE'
         client['objectType'] = 'SUBSYSTEM'
 
-        plugins = kwargs.get('plugins') or []
-        plugins.append(XRoadPlugin(self))
-        kwargs['plugins'] = plugins
-        _logger.debug('Plugins (%s)', plugins)
+        # plugins = kwargs.get('plugins') or []
+        # plugins.append(XRoadPlugin(self))
+        # kwargs['plugins'] = plugins
+        # _logger.debug('Plugins (%s)', plugins)
 
         super().__init__(wsdl, *args, **kwargs)
 
