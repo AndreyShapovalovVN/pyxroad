@@ -143,29 +143,38 @@ class XClient(Client):
         _logger.debug('Set (userId: %s)', value)
 
     def _element(self, body, responce, parrent, iter=0, report=True):
-
         _logger.debug('Recursion depth %s', iter)
-
         if iter == 1000:
             _logger.error('Emergency exit from recursion')
             return responce
         iter += 1
-        responce.update({parrent: {}})
+        if isinstance(responce, list):
+            _logger.debug('Responce list type')
+            responce = responce[0]
+        if parrent not in responce.keys():
+            responce.update({parrent: {}})
 
         for name, element in body.type.elements:
-            if hasattr(element.type, 'elements_nested'):
 
-                responce[parrent].update({
-                    name: dict(
-                        element.type.elements_nested[0][1].default_value)
-                })
+            if hasattr(element.type, 'elements_nested'):
+                if isinstance(element.default_value, list):
+                    value = {name: element.default_value}
+                else:
+                    value = {name: {}}
+
+                if isinstance(responce[parrent], list):
+                    if not responce[parrent]:
+                        responce[parrent].append({})
+                    responce[parrent][0].update(value)
+                else:
+                    responce[parrent].update(value)
 
                 self._element(
                     element, responce[parrent], name, iter=iter, report=report
                 )
             else:
                 if report:
-                    responce[parrent].update({
+                    value = {
                         name: {
                             'type': element.type.name,
                             'is_optional': element.is_optional,
@@ -173,9 +182,16 @@ class XClient(Client):
                             'min_occurs': element.min_occurs,
                             'nillable': element.nillable,
                         }
-                    })
+                    }
                 else:
-                    responce[parrent].update({name: None})
+                    value = {name: element.default_value}
+
+                if isinstance(responce[parrent], list):
+                    if not responce[parrent]:
+                        responce[parrent].append({})
+                    responce[parrent][0].update(value)
+                else:
+                    responce[parrent].update(value)
 
         return responce
 
@@ -189,10 +205,7 @@ class XClient(Client):
                 for operation in port.binding._operations.values():
                     element = self._element(
                         operation.__dict__[put].body,
-                        {},
-                        put,
-                        iter=0,
-                        report=report,
+                        {}, put, iter=0, report=report,
                     )
         return element
 
