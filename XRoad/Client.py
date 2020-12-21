@@ -1,5 +1,6 @@
 import logging
 import uuid
+from urllib import parse
 
 import requests
 from zeep import Plugin, Client
@@ -83,12 +84,15 @@ class XClient(Client):
         service['objectType'] = 'SERVICE'
         client['objectType'] = 'SUBSYSTEM'
 
-        # plugins = kwargs.get('plugins') or []
-        # plugins.append(XRoadPlugin(self))
-        # kwargs['plugins'] = plugins
-        # _logger.debug('Plugins (%s)', plugins)
-
         super().__init__(wsdl, *args, **kwargs)
+
+        if parse.urlparse(
+                self.service._binding_options[
+                    'address']).hostname != parse.urlparse(
+            self.security_server_url).hostname:
+            _logger.debug('IP address services modify to SS')
+            self.service._binding_options['address'] = self.security_server_url
+
 
         self.set_ns_prefix('xro', "http://x-road.eu/xsd/xroad.xsd")
         self.set_ns_prefix('iden', "http://x-road.eu/xsd/identifiers")
