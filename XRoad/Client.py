@@ -73,26 +73,27 @@ class XClient(Client):
 
         client = {addr_fields[i]: val for i, val in
                   enumerate(client.split('/'))}
+        client.update({'objectType': 'SUBSYSTEM'})
 
         service = {addr_fields[i]: val for i, val in
                    enumerate(service.split('/'))}
+        service.update({'objectType': 'SERVICE'})
 
         wsdl = requests.Request(
             'GET', ssu + '/wsdl', params=service).prepare().url
         _logger.debug('wsdl url(%s)', wsdl)
 
-        service['objectType'] = 'SERVICE'
-        client['objectType'] = 'SUBSYSTEM'
-
+        # Init zeep.Client
         super().__init__(wsdl, *args, **kwargs)
 
-        if parse.urlparse(
-                self.service._binding_options[
-                    'address']).hostname != parse.urlparse(
-            self.security_server_url).hostname:
-            _logger.debug('IP address services modify to SS')
-            self.service._binding_options['address'] = self.security_server_url
-
+        if 'https://' in self.security_server_url:
+            self.transport.session.proxies = {
+                'https': self.security_server_url,
+            }
+        else:
+            self.transport.session.proxies = {
+                'http': self.security_server_url,
+            }
 
         self.set_ns_prefix('xro', "http://x-road.eu/xsd/xroad.xsd")
         self.set_ns_prefix('iden', "http://x-road.eu/xsd/identifiers")
