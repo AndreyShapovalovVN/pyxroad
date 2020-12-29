@@ -1,4 +1,5 @@
 import logging
+import re
 import uuid
 from urllib import parse
 
@@ -8,6 +9,14 @@ from zeep.exceptions import Fault
 from zeep.helpers import serialize_object
 
 _logger = logging.getLogger('XRoad')
+
+ADDR_FIELDS = (
+    'xRoadInstance',
+    'memberClass',
+    'memberCode',
+    'subsystemCode',
+    'serviceCode',
+    'serviceVersion')
 
 
 class XRoadPlugin(Plugin):
@@ -61,39 +70,19 @@ class XClient(Client):
         if not client:
             raise Exception('client - required')
 
-        self.security_server_url = ssu
-
-        addr_fields = (
-            'xRoadInstance',
-            'memberClass',
-            'memberCode',
-            'subsystemCode',
-            'serviceCode',
-            'serviceVersion')
-
-        client = {addr_fields[i]: val for i, val in
+        client = {ADDR_FIELDS[i]: val for i, val in
                   enumerate(client.split('/'))}
         client.update({'objectType': 'SUBSYSTEM'})
 
-        service = {addr_fields[i]: val for i, val in
+        service = {ADDR_FIELDS[i]: val for i, val in
                    enumerate(service.split('/'))}
         service.update({'objectType': 'SERVICE'})
 
-        wsdl = requests.Request(
-            'GET', ssu + '/wsdl', params=service).prepare().url
-        _logger.debug('wsdl url(%s)', wsdl)
+        super().__init__(
+            _get_wsdl_url(ssu, service),
+            *args, **kwargs)
 
-        # Init zeep.Client
-        super().__init__(wsdl, *args, **kwargs)
-
-        if 'https://' in self.security_server_url:
-            self.transport.session.proxies = {
-                'https': self.security_server_url,
-            }
-        else:
-            self.transport.session.proxies = {
-                'http': self.security_server_url,
-            }
+        self.transport.session.proxies.update({'http': ssu, })
 
         self.set_ns_prefix('xro', "http://x-road.eu/xsd/xroad.xsd")
         self.set_ns_prefix('iden', "http://x-road.eu/xsd/identifiers")
@@ -218,3 +207,15 @@ class XClient(Client):
     def get_input_elements(self):
         input_element = self.wsdl_elements('input', report=False)
         return input_element.get('input')
+
+
+def _get_wsdl_url(host, service):
+    s = service.copy()
+    s.update({'version': s.get('serviceCode')})
+    del s['serviceCode']
+    u = parse.urlparse(host)
+    return parse.urlunparse(
+        u._replace(
+            path='wsdl',
+            query=parse.urlencode(s))
+    )
