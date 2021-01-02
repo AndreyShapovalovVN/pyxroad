@@ -211,8 +211,9 @@ class XClient(Client):
 
 def _get_wsdl_url(host, service):
     s = service.copy()
-    s.update({'version': s.get('serviceCode')})
-    del s['serviceCode']
+    if s.get('serviceVersion'):
+        s.update({'version': s.get('serviceVersion')})
+        del s['serviceVersion']
     u = parse.urlparse(host)
     _logger.debug(s)
     return parse.urlunparse(
