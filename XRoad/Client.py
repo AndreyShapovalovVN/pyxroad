@@ -214,6 +214,7 @@ def _get_wsdl_url(host, service):
     s.update({'version': s.get('serviceCode')})
     del s['serviceCode']
     u = parse.urlparse(host)
+    _logger.debug(s)
     return parse.urlunparse(
         u._replace(
             path='wsdl',
