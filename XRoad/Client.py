@@ -1,9 +1,7 @@
 import logging
-import re
 import uuid
 from urllib import parse
 
-import requests
 from zeep import Plugin, Client
 from zeep.exceptions import Fault
 from zeep.helpers import serialize_object
@@ -61,6 +59,7 @@ class XRoadPlugin(Plugin):
 
 
 class XClient(Client):
+    _version = 4.0
 
     def __init__(self, ssu, client, service, *args, **kwargs):
         self.response = None
@@ -92,8 +91,8 @@ class XClient(Client):
                 'client': client,
                 'service': service,
                 'userId': client.get('subsystemCode'),
-                'id': '0',
-                'protocolVersion': '4.0',
+                'id': uuid.uuid4().hex,
+                'protocolVersion': self._version,
             }
         )
         _logger.debug('Default header (%s)', self._default_soapheaders)
@@ -211,6 +210,8 @@ class XClient(Client):
 
 def _get_wsdl_url(host, service):
     s = service.copy()
+    if s.get('objectType'):
+        del s['objectType']
     if s.get('serviceVersion'):
         s.update({'version': s.get('serviceVersion')})
         del s['serviceVersion']
