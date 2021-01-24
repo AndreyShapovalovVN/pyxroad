@@ -1,2 +1,2 @@
-zeep>=3.3.0
+zeep>=4.0.0
 requests>=2.18.4
