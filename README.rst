@@ -24,12 +24,10 @@
 ----------
 ::
 
-    from XRoad import XClient
+    from XRoad import XClient, InMemoryCache, Transport
     import logging
     import sys
-    from zeep.plugins import HistoryPlugin
 
-    history = HistoryPlugin()
 
     logging.basicConfig(
         stream=sys.stdout,
@@ -42,7 +40,7 @@
         client='SEVDEIR-TEST/GOV/00013480/100001',
         serviсe='SEVDEIR-TEST/GOV/00032684/MIA_prod/CheckPassportStatus/v0.1',
         userId = '0123456789',  # Optionals
-        plugins=[history],  # Optionals
+        transport=Transport(cache=InMemoryCache(), timeout=60)
     )
 
     c.userId = '0123456789'  # Optionals, default {Client subsystemCode}
