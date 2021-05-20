@@ -3,12 +3,10 @@ import uuid
 from urllib import parse
 
 from zeep import Client
+from zeep.cache import InMemoryCache
 from zeep.exceptions import Fault
 from zeep.helpers import serialize_object
-from zeep.cache import SqliteCache, InMemoryCache
 from zeep.transports import Transport
-from lxml import etree
-from zeep.wsdl.utils import etree_to_string
 
 _logger = logging.getLogger('XRoad')
 
@@ -19,23 +17,6 @@ ADDR_FIELDS = (
     'subsystemCode',
     'serviceCode',
     'serviceVersion')
-
-
-class DRACTransport(Transport):
-    def post_xml(self, address, envelope, headers):
-        message = etree.tostring(
-            envelope, pretty_print=True, xml_declaration=True, encoding="utf-8"
-        ).decode('utf-8')
-
-        _logger.debug(f'Source: \n {message}')
-        drac_message = ''
-        for line in message.splitlines():
-            drac_message += line
-            if not 'iden:' in line:
-                drac_message += '\n'
-        _logger.debug(f'Modified: \n {drac_message}')
-
-        return self.post(address, drac_message.encode('utf-8'), headers)
 
 
 class XClient(Client):

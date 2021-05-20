@@ -40,7 +40,7 @@
         client='SEVDEIR-TEST/GOV/00013480/100001',
         serviсe='SEVDEIR-TEST/GOV/00032684/MIA_prod/CheckPassportStatus/v0.1',
         userId = '0123456789',  # Optionals
-        transport=Transport(cache=SqliteCache(path='./sqlite.db'), timeout=60),  # Optionals, default cache inmemory
+        transport=Transport(cache=SqliteCache(path='./sqlite.db', timeout=60)),  # Optionals, default cache inmemory
     )
 
     c.userId = '0123456789'  # Optionals, default {Client subsystemCode}
