@@ -2,7 +2,7 @@
 ============================
 
 :Forked from: https://github.com/City-of-Helsinki/pyxroad
-:Version: 1.2.11
+:Version: 1.2.12
 :Web: https://trembita.gov.ua
 :Download: https://github.com/AndreyShapovalovVN/pyxroad.git
 :Source: https://github.com/AndreyShapovalovVN/pyxroad.git
@@ -12,7 +12,7 @@
 **What python version is supported?**
 -------------------------------------
 
-- Python 3.6
+- Python 3.8
 
 **Installation From github**
 ----------------------------
@@ -24,7 +24,7 @@
 ----------
 ::
 
-    from XRoad import XClient, InMemoryCache, Transport
+    from XRoad import XClient, SqliteCache, Transport
     import logging
     import sys
 
@@ -40,7 +40,7 @@
         client='SEVDEIR-TEST/GOV/00013480/100001',
         serviсe='SEVDEIR-TEST/GOV/00032684/MIA_prod/CheckPassportStatus/v0.1',
         userId = '0123456789',  # Optionals
-        transport=Transport(cache=InMemoryCache(), timeout=60)
+        transport=Transport(cache=SqliteCache(path='./sqlite.db'), timeout=60),  # Optionals, default cache inmemory
     )
 
     c.userId = '0123456789'  # Optionals, default {Client subsystemCode}

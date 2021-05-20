@@ -2,9 +2,11 @@ import logging
 import uuid
 from urllib import parse
 
-from zeep import Plugin, Client
+from zeep import Client, Plugin
 from zeep.exceptions import Fault
 from zeep.helpers import serialize_object
+from . import Transport, InMemoryCache
+from zeep.wsdl.utils import etree_to_string
 
 _logger = logging.getLogger('XRoad')
 
@@ -17,51 +19,25 @@ ADDR_FIELDS = (
     'serviceVersion')
 
 
-class XRoadPlugin(Plugin):
-    def __init__(self, xroad_client):
-        self.xroad_client = xroad_client
+class DRACTransport(Transport):
+    def post_xml(self, address, envelope, headers):
+        message = etree_to_string(envelope)
 
-    def ingress(self, envelope, http_headers, operation):
-        header = envelope.find(
-            '{http://schemas.xmlsoap.org/soap/envelope/}Header')
-        if header is None:
-            return envelope, http_headers
+        _logger.debug(f'Source: \n {message}')
+        drac_message = ''
+        for line in message.splitlines():
+            drac_message += line
+            if not 'iden:' in line:
+                drac_message += '\n'
+        _logger.debug(f'Modified: \n {drac_message}')
 
-        for el_name in ['requestHash', 'issue']:
-            el = header.find('{http://x-road.eu/xsd/xroad.xsd}%s' % el_name)
-            if el is not None:
-                header.remove(el)
-        return envelope, http_headers
-
-    def egress(self, envelope, http_headers, operation, binding_options):
-        # Set serviceCode based on the SOAP request
-        header = envelope.find(
-            '{http://schemas.xmlsoap.org/soap/envelope/}Header')
-        if header is None:
-            return envelope, http_headers
-
-        el = header.find('{http://x-road.eu/xsd/xroad.xsd}id')
-        if el.text == '0':
-            el.text = uuid.uuid4().hex
-
-        el = header.find('{http://x-road.eu/xsd/xroad.xsd}userId')
-        if el.text == '0000000000':
-            client = header.find('{http://x-road.eu/xsd/xroad.xsd}client')
-            ssc = client.find('{http://x-road.eu/xsd/identifiers}subsystemCode')
-            el.text = ssc.text
-
-        for el in header.getchildren():
-            if el.prefix == 'wsa':
-                header.remove(el)
-
-        binding_options['address'] = self.xroad_client.security_server_url
-        return envelope, http_headers
+        return self.post(address, drac_message, headers)
 
 
 class XClient(Client):
     _version = 4.0
 
-    def __init__(self, ssu, client, service, *args, **kwargs):
+    def __init__(self, ssu, client, service, transport=None, *args, **kwargs):
         self.response = None
 
         if not service:
@@ -79,6 +55,7 @@ class XClient(Client):
 
         super().__init__(
             _get_wsdl_url(ssu, service),
+            transport=transport if transport else Transport(InMemoryCache(timeout=60)),
             *args, **kwargs)
 
         self.transport.session.proxies.update({'http': ssu, })
