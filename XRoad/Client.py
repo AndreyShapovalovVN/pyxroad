@@ -2,10 +2,11 @@ import logging
 import uuid
 from urllib import parse
 
-from zeep import Client, Plugin
+from zeep import Client
 from zeep.exceptions import Fault
 from zeep.helpers import serialize_object
-from . import Transport, InMemoryCache
+from zeep.cache import SqliteCache, InMemoryCache
+from zeep.transports import Transport
 from zeep.wsdl.utils import etree_to_string
 
 _logger = logging.getLogger('XRoad')
