@@ -1,3 +1,4 @@
+from abc import ABC, abstractmethod, abstractproperty
 import logging
 import uuid
 from urllib import parse
@@ -7,6 +8,8 @@ from zeep.cache import InMemoryCache
 from zeep.exceptions import Fault
 from zeep.helpers import serialize_object
 from zeep.transports import Transport
+
+import httpx
 
 _logger = logging.getLogger('XRoad')
 
@@ -19,10 +22,84 @@ ADDR_FIELDS = (
     'serviceVersion')
 
 
+class RClient:
+    _version = 'r1'
+
+    def __init__(self, ssu, client, service, *args, **kwargs):
+        if not service:
+            raise Exception('service - required')
+        if not client:
+            raise Exception('client - required')
+
+        self.headers = {
+            'accept': 'application/json',
+            'Content-Type': 'application/json',
+            'X-Road-Client': client,
+            'X-Road-Service': service,
+            'X-Road-Id': uuid.uuid4().hex,
+            'X-Road-UserId': {ADDR_FIELDS[i]: val for i, val in enumerate(client.split('/'))}.get('subsystemCode'),
+            'X-Road-Issue': None
+        }
+        self.uri = '/'.join((self._version, service, kwargs.get('uri')))
+        self.url = '/'.join((ssu, self.uri))
+
+        self.http_type = kwargs.get('type') or 'GET'
+
+    def request(self, **kwargs):
+        if kwargs.get('xroad_id'):
+            self.id = kwargs.get('xroad_id')
+            del kwargs['xroad_id']
+
+        if kwargs.get('xroad_issue'):
+            self.issue(kwargs.get('xroad_issue'))
+            del kwargs['xroad_issue']
+
+        _logger.debug('URL: %s', self.url)
+        _logger.debug('Type: %s', self.http_type)
+        _logger.debug('Headers: %s', self.headers)
+        _logger.debug('Data: %s', kwargs)
+
+        response = httpx.request(self.http_type, self.url, headers=self.headers, data=kwargs, timeout=60)
+
+        _logger.debug('Response status code: %s', response.status_code)
+        _logger.debug(response.content)
+
+        if response.status_code == 200:
+            return response.json()
+
+
+    @property
+    def id(self):
+        return self.headers.get('X-Road-Id')
+
+    @id.setter
+    def id(self, value):
+        self.headers.update({'X-Road-Id': value})
+        _logger.debug('Set (id: %s)', value)
+
+    @property
+    def userId(self):
+        return self.headers.get('X-Road-UserId')
+
+    @userId.setter
+    def userId(self, value):
+        self.headers.update({'X-Road-UserId': value})
+        _logger.debug('Set (userId: %s)', value)
+
+    @property
+    def issue(self):
+        return self.headers.get('X-Road-Issue')
+
+    @issue.setter
+    def issue(self, value):
+        self.headers.update({'X-Road-Issue': value})
+        _logger.debug('Set (Issue: %s)', value)
+
+
 class XClient(Client):
     _version = 4.0
 
-    def __init__(self, ssu, client, service, transport=None, *args, **kwargs):
+    def __init__(self, ssu, client, service, *args, **kwargs):
         self.response = None
 
         if not service:
@@ -37,6 +114,8 @@ class XClient(Client):
         service = {ADDR_FIELDS[i]: val for i, val in
                    enumerate(service.split('/'))}
         service.update({'objectType': 'SERVICE'})
+
+        transport = kwargs.get('transport')
 
         super().__init__(
             _get_wsdl_url(ssu, service),
@@ -55,15 +134,22 @@ class XClient(Client):
                 'userId': client.get('subsystemCode'),
                 'id': uuid.uuid4().hex,
                 'protocolVersion': self._version,
+                'Issue': None
             }
         )
         _logger.debug('Default header (%s)', self._default_soapheaders)
 
     def request(self, **kwargs):
         service = self._default_soapheaders['service'].get('serviceCode')
+
         if kwargs.get('xroad_id'):
             self.id = kwargs.get('xroad_id')
             del kwargs['xroad_id']
+
+        if kwargs.get('xroad_issue'):
+            self.issue(kwargs.get('xroad_issue'))
+            del kwargs['xroad_issue']
+
         try:
             response = self.service[service](**kwargs)
         except Fault as error:
@@ -96,6 +182,17 @@ class XClient(Client):
         h['userId'] = value
         self.set_default_soapheaders(h)
         _logger.debug('Set (userId: %s)', value)
+
+    @property
+    def issue(self):
+        return self._default_soapheaders.get('userId')
+
+    @issue.setter
+    def issue(self, value):
+        h = self._default_soapheaders
+        h['Issue'] = value
+        self.set_default_soapheaders(h)
+        _logger.debug('Set (Issue: %s)', value)
 
 
 def _get_wsdl_url(host, service):
