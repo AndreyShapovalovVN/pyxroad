@@ -1,15 +1,13 @@
-from abc import ABC, abstractmethod, abstractproperty
 import logging
 import uuid
 from urllib import parse
 
+import httpx
 from zeep import Client
 from zeep.cache import InMemoryCache
 from zeep.exceptions import Fault
 from zeep.helpers import serialize_object
 from zeep.transports import Transport
-
-import httpx
 
 _logger = logging.getLogger('XRoad')
 
@@ -20,6 +18,16 @@ ADDR_FIELDS = (
     'subsystemCode',
     'serviceCode',
     'serviceVersion')
+
+
+class XRoadClient:
+    def __init__(self, protokol, *args, **kwargs):
+        if protokol == 'SOAP':
+            client = XClient(*args, **kwargs)
+        elif protokol == 'REST':
+            client = RClient(*args, **kwargs)
+        else:
+            raise ValueError('Supported protocols only SOAP and REST')
 
 
 class RClient:
@@ -119,7 +127,7 @@ class XClient(Client):
         transport = kwargs.get('transport')
 
         super().__init__(
-            _get_wsdl_url(ssu, service),
+            self._get_wsdl_url(ssu, service),
             transport=transport if transport else Transport(InMemoryCache(timeout=60)),
             *args, **kwargs)
 
@@ -146,8 +154,7 @@ class XClient(Client):
         try:
             response = self.service[service](**kwargs)
         except Fault as error:
-            _logger.error('service error (%s: %s)', error.code,
-                          error.message)
+            _logger.error('service error (%s: %s)', error.code, error.message)
             raise Fault(error)
         else:
             s_object = serialize_object(response)
@@ -187,18 +194,18 @@ class XClient(Client):
         self.set_default_soapheaders(h)
         _logger.debug('Set (Issue: %s)', value)
 
-
-def _get_wsdl_url(host, service):
-    s = service.copy()
-    if s.get('objectType'):
-        del s['objectType']
-    if s.get('serviceVersion'):
-        s.update({'version': s.get('serviceVersion')})
-        del s['serviceVersion']
-    u = parse.urlparse(host)
-    _logger.debug(s)
-    return parse.urlunparse(
-        u._replace(
-            path='wsdl',
-            query=parse.urlencode(s))
-    )
+    @staticmethod
+    def _get_wsdl_url(host, service):
+        s = service.copy()
+        if s.get('objectType'):
+            del s['objectType']
+        if s.get('serviceVersion'):
+            s.update({'version': s.get('serviceVersion')})
+            del s['serviceVersion']
+        u = parse.urlparse(host)
+        _logger.debug(s)
+        return parse.urlunparse(
+            u._replace(
+                path='wsdl',
+                query=parse.urlencode(s))
+        )
