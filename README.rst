@@ -12,7 +12,7 @@
 **What python version is supported?**
 -------------------------------------
 
-- Python 3.8
+- Python >= 3.8
 
 **Installation From github**
 ----------------------------
@@ -26,11 +26,9 @@
 
     from XRoad import XClient, SqliteCache, Transport
     import logging
-    import sys
 
 
     logging.basicConfig(
-        stream=sys.stdout,
         level=logging.INFO,
         format='%(asctime)s - %(levelname)s - %(name)s - %(message)s')
     _logger = logging.getLogger('XRoad')
@@ -39,16 +37,17 @@
         "http://security_server",
         client='SEVDEIR-TEST/GOV/00013480/100001',
         serviсe='SEVDEIR-TEST/GOV/00032684/MIA_prod/CheckPassportStatus/v0.1',
-        userId = '0123456789',  # Optionals
+        user_id = '0123456789',  # Optionals
         transport=Transport(cache=SqliteCache(path='./sqlite.db', timeout=60)),  # Optionals, default cache inmemory
     )
 
-    c.userId = '0123456789'  # Optionals, default {Client subsystemCode}
+    c.user_id = '0123456789'  # Optionals, default {Client subsystemCode}
     c.id = 'ABCD123456'  # Optionals, default uuid.uuid4().hex
 
     try:
         response = c.request(
-            xroad_id='ABCD123456',  # Optionals priority
+            xroad_id='ABCD123456',  # ID request Optionals priority
+            xroad_issue='CheckDocument', # ID proces Optionals priority
             PasNumber='',
             PasSerial=''
         )

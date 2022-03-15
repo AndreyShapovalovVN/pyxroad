@@ -23,9 +23,9 @@ ADDR_FIELDS = (
 class XRoadClient:
     def __init__(self, protokol, *args, **kwargs):
         if protokol == 'SOAP':
-            client = XClient(*args, **kwargs)
+            self.client = XClient(*args, **kwargs)
         elif protokol == 'REST':
-            client = RClient(*args, **kwargs)
+            self.client = RClient(*args, **kwargs)
         else:
             raise ValueError('Supported protocols only SOAP and REST')
 
@@ -33,7 +33,7 @@ class XRoadClient:
 class RClient:
     _version = 'r1'
 
-    def __init__(self, ssu, client, service, *args, **kwargs):
+    def __init__(self, ssu, client, service, **kwargs):
         if not service:
             raise Exception('service - required')
         if not client:
@@ -75,7 +75,6 @@ class RClient:
         if response.status_code == 200:
             return response.json()
 
-
     @property
     def id(self):
         return self.headers.get('X-Road-Id')
@@ -86,13 +85,13 @@ class RClient:
         _logger.debug('Set (id: %s)', value)
 
     @property
-    def userId(self):
+    def user_id(self):
         return self.headers.get('X-Road-UserId')
 
-    @userId.setter
-    def userId(self, value):
+    @user_id.setter
+    def user_id(self, value):
         self.headers.update({'X-Road-UserId': value})
-        _logger.debug('Set (userId: %s)', value)
+        _logger.debug('Set (user_id: %s)', value)
 
     @property
     def issue(self):
@@ -117,7 +116,7 @@ class XClient(Client):
         self.headers = {
                 'client': {ADDR_FIELDS[i]: val for i, val in enumerate(client.split('/'))},
                 'service': {ADDR_FIELDS[i]: val for i, val in enumerate(service.split('/'))},
-                'userId': client.get('subsystemCode'),
+                'user_id': client.get('subsystemCode'),
                 'id': uuid.uuid4().hex,
                 'protocolVersion': self._version,
                 'Issue': None
@@ -133,8 +132,8 @@ class XClient(Client):
 
         self.transport.session.proxies.update({'http': ssu, })
 
-        self.set_ns_prefix('xro', "http://x-road.eu/xsd/xroad.xsd")
-        self.set_ns_prefix('iden', "http://x-road.eu/xsd/identifiers")
+        self.set_ns_prefix('xro', 'https://x-road.eu/xsd/xroad.xsd')
+        self.set_ns_prefix('iden', 'https://x-road.eu/xsd/identifiers')
 
         self.set_default_soapheaders(self.headers)
 
@@ -173,19 +172,19 @@ class XClient(Client):
         _logger.debug('Set (id: %s)', value)
 
     @property
-    def userId(self):
-        return self._default_soapheaders.get('userId')
+    def user_id(self):
+        return self._default_soapheaders.get('user_id')
 
-    @userId.setter
-    def userId(self, value):
+    @user_id.setter
+    def user_id(self, value):
         h = self._default_soapheaders
-        h['userId'] = value
+        h['user_id'] = value
         self.set_default_soapheaders(h)
-        _logger.debug('Set (userId: %s)', value)
+        _logger.debug('Set (user_id: %s)', value)
 
     @property
     def issue(self):
-        return self._default_soapheaders.get('userId')
+        return self._default_soapheaders.get('user_id')
 
     @issue.setter
     def issue(self, value):
