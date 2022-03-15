@@ -100,21 +100,22 @@ class XClient(Client):
     _version = 4.0
 
     def __init__(self, ssu, client, service, *args, **kwargs):
-        self.response = None
-
         if not service:
             raise Exception('service - required')
         if not client:
             raise Exception('client - required')
 
-        client = {ADDR_FIELDS[i]: val for i, val in
-                  enumerate(client.split('/'))}
-        client.update({'objectType': 'SUBSYSTEM'})
-
-        service = {ADDR_FIELDS[i]: val for i, val in
-                   enumerate(service.split('/'))}
-        service.update({'objectType': 'SERVICE'})
-
+        self.response = None
+        self.headers = {
+                'client': {ADDR_FIELDS[i]: val for i, val in enumerate(client.split('/'))},
+                'service': {ADDR_FIELDS[i]: val for i, val in enumerate(service.split('/'))},
+                'userId': client.get('subsystemCode'),
+                'id': uuid.uuid4().hex,
+                'protocolVersion': self._version,
+                'Issue': None
+            }
+        self.headers['client'].update({'objectType': 'SUBSYSTEM'})
+        self.headers['service'].update({'objectType': 'SERVICE'})
         transport = kwargs.get('transport')
 
         super().__init__(
@@ -127,16 +128,8 @@ class XClient(Client):
         self.set_ns_prefix('xro', "http://x-road.eu/xsd/xroad.xsd")
         self.set_ns_prefix('iden', "http://x-road.eu/xsd/identifiers")
 
-        self.set_default_soapheaders(
-            {
-                'client': client,
-                'service': service,
-                'userId': client.get('subsystemCode'),
-                'id': uuid.uuid4().hex,
-                'protocolVersion': self._version,
-                'Issue': None
-            }
-        )
+        self.set_default_soapheaders(self.headers)
+
         _logger.debug('Default header (%s)', self._default_soapheaders)
 
     def request(self, **kwargs):
