@@ -119,7 +119,7 @@ class XClient(Client):
         self.headers = {
             'client': {ADDR_FIELDS[i]: val for i, val in enumerate(client.split('/'))},
             'service': {ADDR_FIELDS[i]: val for i, val in enumerate(service.split('/'))},
-            'user_id': client.get('subsystemCode'),
+            'user_id': client.split('/')[3],
             'id': uuid.uuid4().hex,
             'protocolVersion': self._version,
             'Issue': None
