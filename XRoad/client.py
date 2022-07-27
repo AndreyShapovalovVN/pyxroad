@@ -112,21 +112,24 @@ class XClient(Client):
         if not client:
             raise Exception('client - required')
 
+        self._ssu = ssu
+        self._service = service
+
         self.response = None
         self.headers = {
-                'client': {ADDR_FIELDS[i]: val for i, val in enumerate(client.split('/'))},
-                'service': {ADDR_FIELDS[i]: val for i, val in enumerate(service.split('/'))},
-                'user_id': client.get('subsystemCode'),
-                'id': uuid.uuid4().hex,
-                'protocolVersion': self._version,
-                'Issue': None
-            }
+            'client': {ADDR_FIELDS[i]: val for i, val in enumerate(client.split('/'))},
+            'service': {ADDR_FIELDS[i]: val for i, val in enumerate(service.split('/'))},
+            'user_id': client.get('subsystemCode'),
+            'id': uuid.uuid4().hex,
+            'protocolVersion': self._version,
+            'Issue': None
+        }
         self.headers['client'].update({'objectType': 'SUBSYSTEM'})
         self.headers['service'].update({'objectType': 'SERVICE'})
         transport = kwargs.get('transport')
 
         super().__init__(
-            self._get_wsdl_url(ssu, service),
+            self.get_wsdl_url,
             transport=transport if transport else Transport(InMemoryCache(timeout=60)),
             *args, **kwargs)
 
@@ -193,18 +196,14 @@ class XClient(Client):
         self.set_default_soapheaders(h)
         _logger.debug('Set (Issue: %s)', value)
 
-    @staticmethod
-    def _get_wsdl_url(host, service):
-        s = service.copy()
+    @property
+    def get_wsdl_url(self):
+        s = self._service.copy()
         if s.get('objectType'):
             del s['objectType']
         if s.get('serviceVersion'):
             s.update({'version': s.get('serviceVersion')})
             del s['serviceVersion']
-        u = parse.urlparse(host)
+        u = parse.urlparse(self._ssu)
         _logger.debug(s)
-        return parse.urlunparse(
-            u._replace(
-                path='wsdl',
-                query=parse.urlencode(s))
-        )
+        return parse.urlunparse(u._replace(path='wsdl', query=parse.urlencode(s)))
