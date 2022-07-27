@@ -198,7 +198,7 @@ class XClient(Client):
 
     @property
     def get_wsdl_url(self):
-        s = self._service.copy()
+        s = self._service[:]
         if s.get('objectType'):
             del s['objectType']
         if s.get('serviceVersion'):
