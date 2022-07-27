@@ -113,13 +113,14 @@ class XClient(Client):
             raise Exception('client - required')
 
         self._ssu = ssu
-        self._service = service
+        self._service = {ADDR_FIELDS[i]: val for i, val in enumerate(service.split('/'))}
+        self._client = {ADDR_FIELDS[i]: val for i, val in enumerate(client.split('/'))}
 
         self.response = None
         self.headers = {
-            'client': {ADDR_FIELDS[i]: val for i, val in enumerate(client.split('/'))},
-            'service': {ADDR_FIELDS[i]: val for i, val in enumerate(service.split('/'))},
-            'user_id': client.split('/')[3],
+            'client': self._client,
+            'service': self._service,
+            'user_id': self._client.get('subsystemCode'),
             'id': uuid.uuid4().hex,
             'protocolVersion': self._version,
             'Issue': None
@@ -198,7 +199,7 @@ class XClient(Client):
 
     @property
     def get_wsdl_url(self):
-        s = self._service[:]
+        s = self._service.copy()
         if s.get('objectType'):
             del s['objectType']
         if s.get('serviceVersion'):
