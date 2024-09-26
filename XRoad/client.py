@@ -43,7 +43,7 @@ class XClient(Client):
         service.update({'objectType': 'SERVICE'})
 
         if hack_wsdl:
-            wsdl = _hack_wsdl(_get_wsdl_url(ssu, service), ssu)
+            wsdl = _hack_wsdl(_get_wsdl_url(ssu, service), ssu, service.get('serviceCode'))
         else:
             wsdl = _get_wsdl_url(ssu, service)
 
@@ -123,7 +123,7 @@ def _get_wsdl_url(host, service):
     )
 
 
-def _hack_wsdl(path, ssu):
+def _hack_wsdl(path, ssu, service):
     _logger.info(f"Hacking WSDL from {path}")
     response = requests.get(path)
     if response.status_code != 200:
@@ -133,7 +133,7 @@ def _hack_wsdl(path, ssu):
     root = etree.fromstring(response.content)
     for definitions in root:
         if 'service' in definitions.tag:
-            definitions.attrib['name'] = 'ChRegDataDRFOAnswer'
+            definitions.attrib['name'] = service
             for port in definitions:
                 _logger.debug(f"Changing {definitions.tag} -> {port.tag} ")
                 for address in port:
