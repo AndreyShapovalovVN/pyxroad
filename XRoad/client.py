@@ -1,7 +1,11 @@
 import logging
+import os
+import tempfile
 import uuid
 from urllib import parse
 
+import requests
+from lxml import etree
 from zeep import Client
 from zeep.cache import InMemoryCache
 from zeep.exceptions import Fault
@@ -22,7 +26,7 @@ ADDR_FIELDS = (
 class XClient(Client):
     _version = 4.0
 
-    def __init__(self, ssu, client, service, transport=None, *args, **kwargs):
+    def __init__(self, ssu, client, service, transport=None, hack_wsdl=False, *args, **kwargs):
         self.response = None
 
         if not service:
@@ -38,8 +42,13 @@ class XClient(Client):
                    enumerate(service.split('/'))}
         service.update({'objectType': 'SERVICE'})
 
+        if hack_wsdl:
+            wsdl = _hack_wsdl(_get_wsdl_url(ssu, service))
+        else:
+            wsdl = _get_wsdl_url(ssu, service)
+
         super().__init__(
-            _get_wsdl_url(ssu, service),
+            wsdl,
             transport=transport if transport else Transport(InMemoryCache(timeout=60)),
             *args, **kwargs)
 
@@ -112,3 +121,29 @@ def _get_wsdl_url(host, service):
             path='wsdl',
             query=parse.urlencode(s))
     )
+
+
+def _hack_wsdl(path):
+    _logger.info(f"Hacking WSDL from {path}")
+    response = requests.get(path)
+    if response.status_code != 200:
+        _logger.error(f"Failed to retrieve WSDL from {path}")
+        raise Exception(f"Failed to retrieve WSDL from {path}")
+    _logger.debug(f"Response from {path}: {response.content}")
+    root = etree.fromstring(response.content)
+    for operation in root.xpath('.//*[local-name()="operation"]'):
+        _logger.debug(f"Operation: {operation.tag}")
+        for child in operation:
+            if 'input' in child.tag:
+                continue
+            if 'output' in child.tag:
+                continue
+            _logger.debug(f"Removing {child.tag}")
+            operation.remove(child)
+
+    tmpdirname = tempfile.TemporaryDirectory().name
+    os.mkdir(tmpdirname)
+    _logger.debug(f'created temporary directory: {tmpdirname}')
+    with open(f'{tmpdirname}/wsdl.xml', 'wb') as f:
+        f.write(etree.tostring(root, pretty_print=True))
+    return f'{tmpdirname}/wsdl.xml'
