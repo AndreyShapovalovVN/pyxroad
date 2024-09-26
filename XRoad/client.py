@@ -131,15 +131,17 @@ def _hack_wsdl(path):
         raise Exception(f"Failed to retrieve WSDL from {path}")
     _logger.debug(f"Response from {path}: {response.content}")
     root = etree.fromstring(response.content)
-    for operation in root.xpath('.//*[local-name()="operation"]'):
-        _logger.debug(f"Operation: {operation.tag}")
-        for child in operation:
-            if 'input' in child.tag:
-                continue
-            if 'output' in child.tag:
-                continue
-            _logger.debug(f"Removing {child.tag}")
-            operation.remove(child)
+    for definitions in root:
+        if "portType" in definitions.tag:
+            for portType in definitions:
+                if "operation" in portType.tag:
+                    for operation in portType:
+                        if "input" in operation.tag:
+                            continue
+                        if "output" in operation.tag:
+                            continue
+                        _logger.debug(f"Removing {definitions.tag} -> {portType.tag} -> {operation.tag}")
+                        portType.remove(operation)
 
     tmpdirname = tempfile.TemporaryDirectory().name
     os.mkdir(tmpdirname)
