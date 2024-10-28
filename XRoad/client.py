@@ -1,32 +1,36 @@
 import logging
-import os
-import tempfile
 import uuid
-from urllib import parse
 
-import requests
-from lxml import etree
 from zeep import Client
 from zeep.cache import InMemoryCache
 from zeep.exceptions import Fault
 from zeep.helpers import serialize_object
 from zeep.transports import Transport
 
-_logger = logging.getLogger('XRoad')
+from .Members import Members
+from .fixBagInWSDL import _hack_wsdl
 
-ADDR_FIELDS = (
-    'xRoadInstance',
-    'memberClass',
-    'memberCode',
-    'subsystemCode',
-    'serviceCode',
-    'serviceVersion')
+_logger = logging.getLogger('XRoad')
 
 
 class XClient(Client):
+    """
+    XClient is a wrapper around zeep.Client that provides a default header
+    for X-Road services. It also provides a method to send requests to the
+    service and return the response.
+    """
     _version = 4.0
 
     def __init__(self, ssu, client, service, transport=None, hack_wsdl=False, *args, **kwargs):
+        """
+        :param ssu: Security Server URL
+        :param client:
+        :param service:
+        :param transport:
+        :param hack_wsdl:
+        :param args:
+        :param kwargs:
+        """
         self.response = None
 
         if not service:
@@ -34,18 +38,13 @@ class XClient(Client):
         if not client:
             raise Exception('client - required')
 
-        client = {ADDR_FIELDS[i]: val for i, val in
-                  enumerate(client.split('/'))}
-        client.update({'objectType': 'SUBSYSTEM'})
-
-        service = {ADDR_FIELDS[i]: val for i, val in
-                   enumerate(service.split('/'))}
-        service.update({'objectType': 'SERVICE'})
+        client = Members(objectType='SUBSYSTEM', memberPath=client)
+        service = Members(objectType='SERVICE', memberPath=service)
 
         if hack_wsdl:
-            wsdl = _hack_wsdl(_get_wsdl_url(ssu, service), service.get('serviceCode'))
+            wsdl = _hack_wsdl(service.wsdl_url(ssu), service.serviceCode)
         else:
-            wsdl = _get_wsdl_url(ssu, service)
+            wsdl = service.wsdl_url(ssu)
 
         super().__init__(
             wsdl,
@@ -59,9 +58,9 @@ class XClient(Client):
 
         self.set_default_soapheaders(
             {
-                'client': client,
-                'service': service,
-                'userId': client.get('subsystemCode'),
+                'client': client.member_dict,
+                'service': service.member_dict,
+                'userId': client.subsystemCode,
                 'id': uuid.uuid4().hex,
                 'protocolVersion': self._version,
             }
@@ -105,50 +104,3 @@ class XClient(Client):
         h['userId'] = value
         self.set_default_soapheaders(h)
         _logger.debug('Set (userId: %s)', value)
-
-
-def _get_wsdl_url(host, service):
-    s = service.copy()
-    if s.get('objectType'):
-        del s['objectType']
-    if s.get('serviceVersion'):
-        s.update({'version': s.get('serviceVersion')})
-        del s['serviceVersion']
-    u = parse.urlparse(host)
-    _logger.debug(s)
-    return parse.urlunparse(
-        u._replace(
-            path='wsdl',
-            query=parse.urlencode(s))
-    )
-
-
-def _hack_wsdl(path, service):
-    _logger.info(f"Hacking WSDL from {path}")
-    response = requests.get(path)
-    if response.status_code != 200:
-        _logger.error(f"Failed to retrieve WSDL from {path}")
-        raise Exception(f"Failed to retrieve WSDL from {path}")
-    _logger.debug(f"Response from {path}: {response.content}")
-    root = etree.fromstring(response.content)
-    for definitions in root:
-        if 'service' in definitions.tag:
-            definitions.attrib['name'] = service
-    for definitions in root:
-        if "portType" in definitions.tag:
-            for portType in definitions:
-                if "operation" in portType.tag:
-                    for operation in portType:
-                        if "input" in operation.tag:
-                            continue
-                        if "output" in operation.tag:
-                            continue
-                        _logger.debug(f"Removing {definitions.tag} -> {portType.tag} -> {operation.tag}")
-                        portType.remove(operation)
-
-    tmpdirname = tempfile.TemporaryDirectory().name
-    os.mkdir(tmpdirname)
-    _logger.debug(f'created temporary directory: {tmpdirname}')
-    with open(f'{tmpdirname}/wsdl.xml', 'wb') as f:
-        f.write(etree.tostring(root, pretty_print=True))
-    return f'{tmpdirname}/wsdl.xml'

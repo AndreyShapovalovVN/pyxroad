@@ -2,7 +2,7 @@
 ============================
 
 :Forked from: https://github.com/City-of-Helsinki/pyxroad
-:Version: 1.2.12
+:Version: 1.3.0
 :Web: https://trembita.gov.ua
 :Download: https://github.com/AndreyShapovalovVN/pyxroad.git
 :Source: https://github.com/AndreyShapovalovVN/pyxroad.git
@@ -39,6 +39,7 @@
         "http://security_server",
         client='SEVDEIR-TEST/GOV/00013480/100001',
         serviсe='SEVDEIR-TEST/GOV/00032684/MIA_prod/CheckPassportStatus/v0.1',
+        hack_wsdl=True,  # Fixing Bag from WSDL in Trembita. Optionals, default False
         userId = '0123456789',  # Optionals
         transport=Transport(cache=SqliteCache(path='./sqlite.db', timeout=60)),  # Optionals, default cache inmemory
     )
