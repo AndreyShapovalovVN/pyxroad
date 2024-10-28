@@ -43,7 +43,11 @@ class Members:
         :return: str
         """
         if "SERVICE" in self.objectType:
-            return f"xRoadInstance={self.xRoadInstance}/memberClass={self.memberClass}/memberCode={self.memberCode}/subsystemCode={self.subsystemCode}/serviceCode={self.serviceCode}/version={self.serviceVersion}"
+            _path=''
+            for key, value in self.member_dict.items():
+                if value:
+                    _path += f"{key}={value}/"
+            return _path
         raise Exception("wsdl_path is only available for SERVICE objectType")
 
     def wsdl_url(self, ssu: str) -> str:
