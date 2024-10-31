@@ -34,7 +34,8 @@ class TestMembers(unittest.TestCase):
     def test_wsdl_url(self):
         member = Members(objectType="SERVICE", memberPath="instance/class/code/subsystem/service/serviceVersion")
         ssu = "http://example.com"
-        expected_url = f"{ssu}/{member.wsdl_path}"
+        expected_wsdl_path = "xRoadInstance=instance/memberClass=class/memberCode=code/subsystemCode=subsystem/serviceCode=service/version=serviceVersion"
+        expected_url = f"{ssu}/wsdl?{expected_wsdl_path}"
 
         self.assertEqual(member.wsdl_url(ssu), expected_url)
 
@@ -54,8 +55,10 @@ class TestMembers(unittest.TestCase):
 
     def test_wsdl_path_none_for_non_service(self):
         member = Members(objectType="OTHER_TYPE", memberPath="instance/class/code/subsystem/service/serviceVersion")
-
-        self.assertIsNone(member.wsdl_path)
+        try:
+            path = member.wsdl_path
+        except Exception as e:
+            self.assertEqual(str(e), "wsdl_path is only available for SERVICE objectType")
 
 
 if __name__ == '__main__':

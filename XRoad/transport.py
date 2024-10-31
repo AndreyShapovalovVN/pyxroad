@@ -7,7 +7,13 @@ _logger = logging.getLogger('DRACTransport')
 
 
 class DRACTransport(Transport):
+    """
+    Transport class for DRAC service
+    """
     def post_xml(self, address, envelope, headers):
+        """
+        Formats the message to be sent to the DRAC service
+        """
         message = etree.tostring(
             envelope, pretty_print=True, xml_declaration=True, encoding="utf-8"
         ).decode('utf-8')
