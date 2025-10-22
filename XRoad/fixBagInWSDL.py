@@ -22,21 +22,16 @@ def _hack_wsdl(path: str, service: str) -> str:
     for definitions in root:
         if 'service' in definitions.tag:
             definitions.attrib['name'] = service
-    for definitions in root:
         if "portType" in definitions.tag:
             for portType in definitions:
                 if "operation" in portType.tag:
                     for operation in portType:
-                        if "input" in operation.tag:
-                            continue
-                        if "output" in operation.tag:
-                            continue
-                        _logger.debug(f"Removing {definitions.tag} -> {portType.tag} -> {operation.tag}")
-                        portType.remove(operation)
+                        if operation.tag not in ("input", "output"):
+                            _logger.debug(f"Removing {definitions.tag} -> {portType.tag} -> {operation.tag}")
+                            portType.remove(operation)
 
-    tmpdirname = tempfile.TemporaryDirectory().name
-    os.mkdir(tmpdirname)
-    _logger.debug(f'created temporary directory: {tmpdirname}')
-    with open(f'{tmpdirname}/wsdl.xml', 'wb') as f:
+    tmpdirname = tempfile.mkdtemp()
+    with open(os.path.join(tmpdirname, 'wsdl.xml'), 'wb') as f:
         f.write(etree.tostring(root, pretty_print=True))
-    return f'{tmpdirname}/wsdl.xml'
+
+    return os.path.join(tmpdirname, 'wsdl.xml')

@@ -41,10 +41,7 @@ class XClient(Client):
         client = Members(objectType='SUBSYSTEM', memberPath=client)
         service = Members(objectType='SERVICE', memberPath=service)
 
-        if hack_wsdl:
-            wsdl = _hack_wsdl(service.wsdl_url(ssu), service.serviceCode)
-        else:
-            wsdl = service.wsdl_url(ssu)
+        wsdl = _hack_wsdl(service.wsdl_url(ssu), service.serviceCode) if hack_wsdl else service.wsdl_url(ssu)
 
         super().__init__(
             wsdl,
@@ -56,27 +53,24 @@ class XClient(Client):
         self.set_ns_prefix('xro', "http://x-road.eu/xsd/xroad.xsd")
         self.set_ns_prefix('iden', "http://x-road.eu/xsd/identifiers")
 
-        self.set_default_soapheaders(
-            {
-                'client': client.member_dict,
-                'service': service.member_dict,
-                'userId': client.subsystemCode,
-                'id': uuid.uuid4().hex,
-                'protocolVersion': self._version,
-            }
-        )
+        self.set_default_soapheaders({
+            'client': client.member_dict,
+            'service': service.member_dict,
+            'userId': client.subsystemCode,
+            'id': uuid.uuid4().hex,
+            'protocolVersion': self._version,
+        })
         _logger.debug('Default header (%s)', self._default_soapheaders)
 
     def request(self, **kwargs):
         service = self._default_soapheaders['service'].get('serviceCode')
-        if kwargs.get('xroad_id'):
-            self.id = kwargs.get('xroad_id')
-            del kwargs['xroad_id']
+        if 'xroad_id' in kwargs:
+            self.id = kwargs.pop('xroad_id')
+
         try:
             response = self.service[service](**kwargs)
         except Fault as error:
-            _logger.error('service error (%s: %s)', error.code,
-                          error.message)
+            _logger.error('service error (%s: %s)', error.code, error.message)
             raise Fault(error)
         else:
             s_object = serialize_object(response)
@@ -89,9 +83,8 @@ class XClient(Client):
 
     @id.setter
     def id(self, value):
-        h = self._default_soapheaders
-        h['id'] = value
-        self.set_default_soapheaders(h)
+        self._default_soapheaders['id'] = value
+        self.set_default_soapheaders(self._default_soapheaders)
         _logger.debug('Set (id: %s)', value)
 
     @property
@@ -100,7 +93,6 @@ class XClient(Client):
 
     @userId.setter
     def userId(self, value):
-        h = self._default_soapheaders
-        h['userId'] = value
-        self.set_default_soapheaders(h)
+        self._default_soapheaders['userId'] = value
+        self.set_default_soapheaders(self._default_soapheaders)
         _logger.debug('Set (userId: %s)', value)

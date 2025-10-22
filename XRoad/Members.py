@@ -47,7 +47,7 @@ class Members:
         :return: str
         """
         if "SERVICE" in self.objectType:
-            _path = ''
+            _path = []
             for key, value in self.member_dict.items():
                 if not value:
                     _logger.debug(f"Skipping {key} as value is None")
@@ -57,12 +57,12 @@ class Members:
                     continue
                 if 'serviceVersion' in key:
                     _logger.debug(f"Adding version={value}")
-                    _path += f"version={value}/"
+                    _path.append(f"version={value}")
                     continue
                 _logger.debug(f"Adding {key}={value}")
-                _path += f"{key}={value}/"
+                _path.append(f"{key}={value}")
             _logger.info(f"wsdl path: {_path[:-1]}")
-            return _path[:-1]
+            return '&'.join(_path)
         raise Exception("wsdl_path is only available for SERVICE objectType")
 
     def wsdl_url(self, ssu: str) -> str:
