@@ -55,6 +55,9 @@ class Members:
                 if key in ('objectType', 'memberPath'):
                     _logger.debug(f"Skipping {key}")
                     continue
+                if value is None:
+                    _logger.debug(f"Skipping {key}")
+                    continue
                 if 'serviceVersion' in key:
                     _logger.debug(f"Adding version={value}")
                     _path.append(f"version={value}")
