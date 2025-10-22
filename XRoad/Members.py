@@ -84,12 +84,20 @@ class Members:
         :return: dict
         """
         _logger.info("Returning member details as dictionary")
-        return {
-            'xRoadInstance': self.xRoadInstance,
-            'memberClass': self.memberClass,
-            'memberCode': self.memberCode,
-            'subsystemCode': self.subsystemCode,
-            'serviceCode': self.serviceCode,
-            'serviceVersion': self.serviceVersion,
-            'objectType': self.objectType
-        }
+        r = {}
+        if self.xRoadInstance:
+            r['xRoadInstance'] = self.xRoadInstance
+        if self.memberClass:
+            r['memberClass'] = self.memberClass
+        if self.memberCode:
+            r['memberCode'] = self.memberCode
+        if self.subsystemCode:
+            r['subsystemCode'] = self.subsystemCode
+        if self.serviceCode:
+            r['serviceCode'] = self.serviceCode
+        if self.serviceVersion:
+            r['serviceVersion'] = self.serviceVersion
+        if self.objectType:
+            r['objectType'] = self.objectType
+
+        return r
