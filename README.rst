@@ -1,8 +1,7 @@
 **X-Road (Trembita) client**
 ============================
 
-:Forked from: https://github.com/City-of-Helsinki/pyxroad
-:Version: 1.4.1
+:Version: 1.4.2
 :Web: https://trembita.gov.ua
 :Download: https://github.com/AndreyShapovalovVN/pyxroad.git
 :Source: https://github.com/AndreyShapovalovVN/pyxroad.git
@@ -12,7 +11,7 @@
 **What python version is supported?**
 -------------------------------------
 
-- Python 3.8
+- Python => 3.8
 
 **Installation From github**
 ----------------------------
