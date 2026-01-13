@@ -2,9 +2,9 @@
 from setuptools import setup, find_packages
 
 setup(
-    name='XRoad',
-    version='1.5.0',
-    description='X-Road (Trembita) client',
+    name="XRoad",
+    version="1.5.1",
+    description="X-Road (Trembita) client",
     packages=find_packages(),
     include_package_data=True,
     install_requires=[],

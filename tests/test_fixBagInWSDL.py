@@ -1,5 +1,4 @@
 import pytest
-import requests
 from unittest.mock import patch, MagicMock
 from XRoad.fixBagInWSDL import _hack_wsdl
 
@@ -18,24 +17,26 @@ def hack_wsdl_success():
         </portType>
     </definitions>"""
 
-    with patch('requests.get') as mock_get:
+    with patch("requests.get") as mock_get:
         mock_response = MagicMock()
         mock_response.status_code = 200
         mock_response.content = wsdl_content
         mock_get.return_value = mock_response
 
-        result = _hack_wsdl('http://example.com/wsdl', 'NewServiceName')
-        assert 'wsdl.xml' in result
+        result = _hack_wsdl("http://example.com/wsdl", "NewServiceName")
+        assert "wsdl.xml" in result
 
 
 def hack_wsdl_invalid_url():
-    with patch('requests.get') as mock_get:
+    with patch("requests.get") as mock_get:
         mock_response = MagicMock()
         mock_response.status_code = 404
         mock_get.return_value = mock_response
 
-        with pytest.raises(Exception, match="Failed to retrieve WSDL from http://invalid-url.com/wsdl"):
-            _hack_wsdl('http://invalid-url.com/wsdl', 'NewServiceName')
+        with pytest.raises(
+            Exception, match="Failed to retrieve WSDL from http://invalid-url.com/wsdl"
+        ):
+            _hack_wsdl("http://invalid-url.com/wsdl", "NewServiceName")
 
 
 def hack_wsdl_no_service_tag():
@@ -48,14 +49,14 @@ def hack_wsdl_no_service_tag():
         </portType>
     </definitions>"""
 
-    with patch('requests.get') as mock_get:
+    with patch("requests.get") as mock_get:
         mock_response = MagicMock()
         mock_response.status_code = 200
         mock_response.content = wsdl_content
         mock_get.return_value = mock_response
 
-        result = _hack_wsdl('http://example.com/wsdl', 'NewServiceName')
-        assert 'wsdl.xml' in result
+        result = _hack_wsdl("http://example.com/wsdl", "NewServiceName")
+        assert "wsdl.xml" in result
 
 
 def hack_wsdl_no_operations():
@@ -65,11 +66,11 @@ def hack_wsdl_no_operations():
         </portType>
     </definitions>"""
 
-    with patch('requests.get') as mock_get:
+    with patch("requests.get") as mock_get:
         mock_response = MagicMock()
         mock_response.status_code = 200
         mock_response.content = wsdl_content
         mock_get.return_value = mock_response
 
-        result = _hack_wsdl('http://example.com/wsdl', 'NewServiceName')
-        assert 'wsdl.xml' in result
+        result = _hack_wsdl("http://example.com/wsdl", "NewServiceName")
+        assert "wsdl.xml" in result

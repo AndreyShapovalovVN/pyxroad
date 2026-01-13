@@ -4,4 +4,13 @@ from zeep.cache import SqliteCache, InMemoryCache
 from zeep.transports import Transport
 from .cache import RedisCache
 
-__version__ = '1.5.0'
+__all__ = [
+    "XClient",
+    "Transport",
+    "DRACTransport",
+    "RedisCache",
+    "SqliteCache",
+    "InMemoryCache",
+]
+
+__version__ = "1.5.1"

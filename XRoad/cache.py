@@ -1,20 +1,21 @@
+import hashlib
 import logging
 
-_logger = logging.getLogger(__name__)
-
-import hashlib
-from zeep.cache import Base
 from redis import Redis
+from zeep.cache import Base
+
+_logger = logging.getLogger(__name__)
 
 
 class RedisCache(Base):
     """
-        Redis-based cache for Zeep WSDL/XSD loading.
+    Redis-based cache for Zeep WSDL/XSD loading.
 
-        - Uses Redis TTL for expiration
-        - Stores data as bytes only
-        - Hashes URL to keep Redis keys short and safe
-        """
+    - Uses Redis TTL for expiration
+    - Stores data as bytes only
+    - Hashes URL to keep Redis keys short and safe
+    """
+
     _version = "1"
 
     def __init__(self, path=None, timeout=3600):
