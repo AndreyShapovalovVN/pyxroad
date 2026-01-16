@@ -13,4 +13,6 @@ __all__ = [
     "InMemoryCache",
 ]
 
-__version__ = "1.5.1"
+__version__ = "1.5.2"
+__author__ = "Andrii Shapovalov"
+__email__ = "mt.andrey@gmail.com"

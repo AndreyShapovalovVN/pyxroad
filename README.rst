@@ -1,7 +1,7 @@
 **X-Road (Trembita) client**
 ============================
 
-:Version: 1.5.1
+:Version: 1.5.2
 :Web: https://trembita.gov.ua
 :Download: https://github.com/AndreyShapovalovVN/pyxroad.git
 :Source: https://github.com/AndreyShapovalovVN/pyxroad.git

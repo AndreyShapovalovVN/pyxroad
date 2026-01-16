@@ -8,7 +8,6 @@ from zeep.helpers import serialize_object
 from zeep.transports import Transport
 
 from .Members import Members
-from .fixBagInWSDL import _hack_wsdl
 
 _logger = logging.getLogger("XRoad")
 
@@ -23,45 +22,34 @@ class XClient(Client):
     _version = 4.0
 
     def __init__(
-        self, ssu, client, service, transport=None, hack_wsdl=False, *args, **kwargs
+            self, ssu, client, service, transport=None, *args, **kwargs
     ):
         """
         :param ssu: Security Server URL
         :param client:
         :param service:
         :param transport:
-        :param hack_wsdl:
         :param args:
         :param kwargs:
         """
         self.response = None
 
         if not service:
-            raise Exception("service - required")
+            raise ValueError("service - required")
         if not client:
-            raise Exception("client - required")
+            raise ValueError("client - required")
 
         client = Members(objectType="SUBSYSTEM", memberPath=client)
         service = Members(objectType="SERVICE", memberPath=service)
 
-        wsdl = (
-            _hack_wsdl(service.wsdl_url(ssu), service.serviceCode)
-            if hack_wsdl
-            else service.wsdl_url(ssu)
-        )
-
         super().__init__(
-            wsdl,
+            service.wsdl_url(ssu),
             transport=transport if transport else Transport(InMemoryCache(timeout=60)),
             *args,
             **kwargs,
         )
 
-        self.transport.session.proxies.update(
-            {
-                "http": ssu,
-            }
-        )
+        self.transport.session.proxies.update({"http": ssu, })
 
         self.set_ns_prefix("xro", "http://x-road.eu/xsd/xroad.xsd")
         self.set_ns_prefix("iden", "http://x-road.eu/xsd/identifiers")
