@@ -67,7 +67,7 @@ class Members:
                 _path.append(f"{key}={value}")
             _logger.info(f"wsdl path: {_path[:-1]}")
             return "&".join(_path)
-        raise Exception("wsdl_path is only available for SERVICE objectType")
+        raise ValueError("wsdl_path is only available for SERVICE objectType")
 
     def wsdl_url(self, ssu: str) -> str:
         """
