@@ -51,8 +51,8 @@ class XClient(Client):
 
         self.transport.session.proxies.update({"http": ssu, })
 
-        self.set_ns_prefix("xro", "http://x-road.eu/xsd/xroad.xsd")
-        self.set_ns_prefix("iden", "http://x-road.eu/xsd/identifiers")
+        self.set_ns_prefix("xro", "https://x-road.eu/xsd/xroad.xsd")
+        self.set_ns_prefix("iden", "https://x-road.eu/xsd/identifiers")
 
         self.set_default_soapheaders(
             {
