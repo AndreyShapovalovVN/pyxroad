@@ -45,7 +45,7 @@ class Members:
     def wsdl_path(self) -> str:
         """
         This method returns the wsdl path for the service.
-        :return: str
+        :return: String
         """
         if "SERVICE" in self.objectType:
             _path = []
@@ -72,17 +72,17 @@ class Members:
     def wsdl_url(self, ssu: str) -> str:
         """
         This method returns the wsdl url for the service.
-        :param: ssu - url to securyt server
-        :return: str
+        :param: Ssu - url to securyt server
+        :return: String
         """
         _logger.info(f"Generating wsdl url for {ssu}")
         return f"{ssu}/wsdl?{self.wsdl_path}"
 
     @property
-    def member_dict(self) -> dict:
+    def member_dict(self) -> dict[str, str]:
         """
         This method returns the member details in a dictionary format.
-        :return: dict
+        :return: Dict
         """
         _logger.info("Returning member details as dictionary")
         r = {}

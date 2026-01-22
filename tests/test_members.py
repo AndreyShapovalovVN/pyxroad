@@ -41,7 +41,7 @@ class TestMembers(unittest.TestCase):
             objectType="SERVICE",
             memberPath="instance/class/code/subsystem/service/serviceVersion",
         )
-        ssu = "http://example.com"
+        ssu = "https://example.com"
         expected_wsdl_path = "xRoadInstance=instance/memberClass=class/memberCode=code/subsystemCode=subsystem/serviceCode=service/version=serviceVersion"
         expected_url = f"{ssu}/wsdl?{expected_wsdl_path}"
 

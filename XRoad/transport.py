@@ -8,13 +8,14 @@ _logger = logging.getLogger("DRACTransport")
 
 class DRACTransport(Transport):
     """
-    Transport class for DRAC service
+    Handles communication with the DRAC (Державни Реестр Актових Записів) service.
+
+    This class is responsible for sending messages to the DRAC service by formatting
+    XML envelopes appropriately. It used the Transport parent class for underlying
+    communication mechanisms.
     """
 
     def post_xml(self, address, envelope, headers):
-        """
-        Formats the message to be sent to the DRAC service
-        """
         message = etree.tostring(
             envelope, pretty_print=True, xml_declaration=True, encoding="utf-8"
         ).decode("utf-8")
