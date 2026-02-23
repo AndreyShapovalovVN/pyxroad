@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import logging
 import uuid
 
@@ -62,12 +64,14 @@ class XClient(Client):
         if not client:
             raise ValueError("client - required")
 
-        client = Members(objectType="SUBSYSTEM", memberPath=client)
-        service = Members(objectType="SERVICE", memberPath=service)
+        client_member = Members(objectType="SUBSYSTEM", memberPath=client)
+        service_member = Members(objectType="SERVICE", memberPath=service)
+
+        if "transport" not in kwargs:
+            kwargs["transport"] = transport if transport else Transport(InMemoryCache(timeout=60))
 
         super().__init__(
-            service.wsdl_url(ssu),
-            transport=transport if transport else Transport(InMemoryCache(timeout=60)),
+            service_member.wsdl_url(ssu),
             *args,
             **kwargs,
         )
@@ -79,9 +83,9 @@ class XClient(Client):
 
         self.set_default_soapheaders(
             {
-                "client": client.member_dict,
-                "service": service.member_dict,
-                "userId": client.subsystemCode,
+                "client": client_member.member_dict,
+                "service": service_member.member_dict,
+                "userId": client_member.subsystemCode,
                 "id": uuid.uuid4().hex,
                 "protocolVersion": self._version,
             }

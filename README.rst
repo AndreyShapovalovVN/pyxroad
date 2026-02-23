@@ -1,59 +1,129 @@
-**X-Road (Trembita) client**
-============================
+**X-Road (Trembita) Python Client**
+===================================
 
-:Version: 1.5.3
+:Version: 1.5.4
 :Web: https://trembita.gov.ua
-:Download: https://github.com/AndreyShapovalovVN/pyxroad.git
-:Source: https://github.com/AndreyShapovalovVN/pyxroad.git
-:Doc: https://trembita.gov.ua/storage/app/media/uploaded-files/Tutorial_Member_20190419_dev.pdf
-:Keywords: x-road, xroad, trembita, python
+:Repository: https://github.com/AndreyShapovalovVN/pyxroad
+:Keywords: x-road, xroad, trembita, python, soap
 
-**What python version is supported?**
--------------------------------------
+A powerful Python client library for interacting with X-Road (Trembita) security servers.
+This library provides a convenient wrapper around the SOAP-based X-Road protocol, allowing
+developers to easily integrate X-Road services into their Python applications.
 
-- Python => 3.8
+**Supported Python Versions**
+------------------------------
 
-**Installation From github**
+- Python 3.8+
+- Python 3.9+
+- Python 3.10+
+- Python 3.11+
+- Python 3.12+
+
+**Features**
+-----------
+
+- Easy-to-use SOAP client for X-Road services
+- Support for multiple cache backends (SQLite, Redis, In-Memory)
+- Automatic SOAP header management
+- Transaction ID tracking
+- Configurable logging
+- Type hints for better IDE support
+
+**Installation from GitHub**
 ----------------------------
-::
+
+Using pip::
 
     $ pip install git+https://github.com/AndreyShapovalovVN/pyxroad.git#egg=XRoad
 
-**Using:**
-----------
-::
+Or clone and install locally::
 
-    from XRoad import XClient, SqliteCache, Transport
+    $ git clone https://github.com/AndreyShapovalovVN/pyxroad.git
+    $ cd pyxroad
+    $ pip install -e .
+
+**Requirements**
+----------------
+
+- lxml >= 5.2.1
+- Requests >= 2.32.3
+- setuptools >= 68.1.2
+- zeep >= 4.0.0
+- redis (optional, for Redis cache support)
+
+**Quick Start**
+---------------
+
+Basic usage example::
+
+    from XRoad import XClient, Transport, SqliteCache
     import logging
     import sys
 
-
+    # Configure logging
     logging.basicConfig(
         stream=sys.stdout,
         level=logging.INFO,
-        format='%(asctime)s - %(levelname)s - %(name)s - %(message)s')
+        format='%(asctime)s - %(levelname)s - %(name)s - %(message)s'
+    )
     _logger = logging.getLogger('XRoad')
 
-    c = XClient(
-        "http://security_server",
+    # Create a client instance
+    client = XClient(
+        ssu="http://security-server:8080",
         client='SEVDEIR-TEST/GOV/00013480/100001',
-        serviсe='SEVDEIR-TEST/GOV/00032684/MIA_prod/CheckPassportStatus/v0.1',
-        hack_wsdl=True,  # Fixing Bag from WSDL in Trembita. Optionals, default False
-        userId = '0123456789',  # Optionals
-        transport=Transport(cache=SqliteCache(path='./sqlite.db', timeout=60)),  # Optionals, default cache inmemory
+        service='SEVDEIR-TEST/GOV/00032684/MIA_prod/CheckPassportStatus/v0.1'
     )
 
-    c.userId = '0123456789'  # Optionals, default {Client subsystemCode}
-    c.id = 'ABCD123456'  # Optionals, default uuid.uuid4().hex
-
+    # Make a service request
     try:
-        response = c.request(
-            xroad_id='ABCD123456',  # Optionals priority
-            PasNumber='',
-            PasSerial=''
+        response = client.request(
+            xroad_id='ABCD123456',  # Optional: set custom request ID
+            PasNumber='AA123456',
+            PasSerial='654321'
         )
+        _logger.info(f"Response: {response}")
     except Exception as err:
-        _logger.error(err)
-    else:
-        _logger.info(response)
+        _logger.error(f"Error: {err}")
+
+**Advanced Usage**
+------------------
+
+Using custom caching backend::
+
+    from XRoad import XClient, Transport, RedisCache
+
+    # With Redis cache
+    redis_cache = RedisCache(path='redis://localhost:6379/0', timeout=3600)
+    transport = Transport(cache=redis_cache)
+
+    client = XClient(
+        ssu="http://security-server:8080",
+        client='SEVDEIR-TEST/GOV/00013480/100001',
+        service='SEVDEIR-TEST/GOV/00032684/MIA_prod/CheckPassportStatus/v0.1',
+        transport=transport
+    )
+
+Setting custom headers::
+
+    client.userId = '0123456789'  # Custom user ID
+    client.id = 'ABCD123456'      # Custom request ID
+
+**Available Cache Types**
+-------------------------
+
+- **InMemoryCache**: Default, stores cache in application memory
+- **SqliteCache**: Persistent cache using SQLite database
+- **RedisCache**: Distributed cache using Redis
+
+**License**
+-----------
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+**Support**
+-----------
+
+For issues, questions, and contributions, please visit:
+https://github.com/AndreyShapovalovVN/pyxroad
 

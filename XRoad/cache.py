@@ -1,5 +1,6 @@
 import hashlib
 import logging
+from typing import cast
 
 from redis import Redis
 from zeep.cache import Base
@@ -81,7 +82,7 @@ class RedisCache(Base):
         :rtype: Bytes or None
         """
         key = self._key(url)
-        content = self.redis_client.get(key)
+        content = cast(bytes | None, self.redis_client.get(key))
         if content:
             _logger.debug("Cache HIT for %s", url)
             return content
