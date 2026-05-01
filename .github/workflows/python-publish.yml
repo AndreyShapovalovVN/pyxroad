@@ -6,7 +6,7 @@ on:
 
 permissions:
   contents: read
-  id-token: write   # 🔥 ОБОВ’ЯЗКОВО для OIDC
+  id-token: write 
 
 jobs:
   build:

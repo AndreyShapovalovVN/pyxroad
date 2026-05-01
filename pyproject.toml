@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools>=68.1.2", "wheel"]
+requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -45,7 +45,6 @@ dev = [
 Homepage = "https://github.com/AndreyShapovalovVN/pyxroad"
 Repository = "https://github.com/AndreyShapovalovVN/pyxroad.git"
 Documentation = "https://trembita.gov.ua"
-"Bug Tracker" = "https://github.com/AndreyShapovalovVN/pyxroad/issues"
 
 [tool.setuptools]
 packages = ["XRoad"]
@@ -63,8 +62,3 @@ disallow_incomplete_defs = false
 [tool.black]
 line-length = 100
 target-version = ["py38", "py39", "py310", "py311", "py312"]
-
-[tool.pytest.ini_options]
-testpaths = ["tests"]
-python_files = ["test_*.py"]
-addopts = "--cov=XRoad --cov-report=term-missing"
