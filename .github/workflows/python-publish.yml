@@ -4,6 +4,9 @@ on:
   release:
     types: [published]
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 permissions:
   contents: read
   id-token: write  # Обов'язково для Trusted Publishing
@@ -12,9 +15,9 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: "3.12"
       - name: Install dependencies
@@ -30,9 +33,9 @@ jobs:
     runs-on: ubuntu-latest
     environment: pypi  # Має збігатися з назвою у налаштуваннях PyPI
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: "3.12"
       - name: Install build tools

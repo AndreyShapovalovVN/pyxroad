@@ -29,7 +29,7 @@ developers to easily integrate X-Road services into their Python applications.
 Using pip:
 
 ```bash
-pip install git+https://github.com/AndreyShapovalovVN/pyxroad.git#egg=XRoad
+pip install git+https://github.com/AndreyShapovalovVN/pyxroad.git#egg=pyxroad
 ```
 
 Or clone and install locally:

@@ -3,7 +3,7 @@ requires = ["setuptools>=70.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "XRoad"
+name = "pyxroad"
 version = "1.5.7"
 description = "X-Road (Trembita) Python client library for SOAP-based service integration"
 authors = [{ name = "Andrii Shapovalov", email = "mt.andrey@gmail.com" }]
