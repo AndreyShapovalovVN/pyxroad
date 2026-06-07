@@ -1,6 +1,6 @@
 # X-Road (Trembita) Python Client
 
-- **Version:** 1.5.6
+- **Version:** 1.5.9
 - **Web:** https://trembita.gov.ua
 - **Repository:** https://github.com/AndreyShapovalovVN/pyxroad
 - **Keywords:** x-road, xroad, trembita, python, soap
@@ -112,6 +112,9 @@ client = XClient(
     transport=transport
 )
 ```
+
+`RedisCache` now has a safe fallback: if `redis` package is not installed or Redis server is unavailable,
+it returns `InMemoryCache(timeout=...)` instead of raising an exception.
 
 Setting custom headers:
 

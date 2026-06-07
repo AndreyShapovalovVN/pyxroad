@@ -1,11 +1,16 @@
 import hashlib
 import logging
-from typing import cast
+from typing import Any, cast
 
-from redis import Redis
-from zeep.cache import Base
+from zeep.cache import Base, InMemoryCache
 
 _logger = logging.getLogger(__name__)
+
+try:
+    from redis import Redis
+except ImportError:
+    _logger.warning("Redis is not installed, caching will not be available")
+    Redis = None
 
 
 class RedisCache(Base):
@@ -27,6 +32,28 @@ class RedisCache(Base):
     """
 
     _version = "1"
+    
+    def __new__(cls,  path: str | Any | None = None, timeout: int = 3600):
+        if Redis is None:
+            _logger.warning("Redis is not installed, caching will not be available")
+            return InMemoryCache(timeout=timeout)
+
+        if isinstance(path, str):
+            redis_client = Redis.from_url(path)
+        elif isinstance(path, Redis):
+            redis_client = path
+        else:
+            raise TypeError("path must be str or Redis")
+
+        try:
+            redis_client.ping()
+        except Exception as e:
+            _logger.warning("Could not connect to Redis: %s. Caching will not be available. Error: %s", path, e)
+            return InMemoryCache(timeout=timeout)
+
+        instance = super().__new__(cls)
+        instance._redis_client = redis_client
+        return instance
 
     def __init__(self, path: str | Redis | None = None, timeout: int = 3600):
         """
@@ -39,12 +66,7 @@ class RedisCache(Base):
 
         :raises TypeError: If `path` is not a string or an instance of Redis.
         """
-        if isinstance(path, str):
-            self.redis_client = Redis.from_url(path)
-        elif isinstance(path, Redis):
-            self.redis_client = path
-        else:
-            raise TypeError("path must be str or Redis")
+        self.redis_client = self._redis_client
         self.ttl = timeout
         self.prefix = "zeep:cache:"
 
