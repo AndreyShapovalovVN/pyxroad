@@ -20,7 +20,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install .  # Встановлює пакет та залежності з pyproject.toml
+          pip install .[dev]  # Встановлює пакет і dev-залежності (включно з pytest)
       - name: Run tests
         run: pytest
 
@@ -37,6 +37,7 @@ jobs:
           python-version: "3.12"
       - name: Install build tools
         run: |
+          python -m pip install --upgrade pip
           pip install build
       - name: Build package
         run: python -m build
