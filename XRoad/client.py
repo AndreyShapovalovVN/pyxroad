@@ -155,7 +155,7 @@ class XClient(Client):
         _logger.debug("Set (id: %s)", value)
 
     @property
-    def userId(self) -> str:
+    def userId(self) -> str | None:
         """
         Provides access to the userId obtained from default SOAP headers.
 
@@ -168,7 +168,7 @@ class XClient(Client):
         :return: The value of "userId" from the default SOAP headers if it exists,
             otherwise returns None.
         """
-        return self._default_soapheaders.get("userId")
+        return self._default_soapheaders.get("userId")  # type: ignore[no-any-return]
 
     @userId.setter
     def userId(self, value: str):
