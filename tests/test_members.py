@@ -32,7 +32,7 @@ class TestMembers(unittest.TestCase):
             objectType="SERVICE",
             memberPath="instance/class/code/subsystem/service/serviceVersion",
         )
-        expected_wsdl_path = "xRoadInstance=instance/memberClass=class/memberCode=code/subsystemCode=subsystem/serviceCode=service/version=serviceVersion"
+        expected_wsdl_path = "xRoadInstance=instance&memberClass=class&memberCode=code&subsystemCode=subsystem&serviceCode=service&version=serviceVersion"
 
         self.assertEqual(member.wsdl_path, expected_wsdl_path)
 
@@ -42,7 +42,7 @@ class TestMembers(unittest.TestCase):
             memberPath="instance/class/code/subsystem/service/serviceVersion",
         )
         ssu = "https://example.com"
-        expected_wsdl_path = "xRoadInstance=instance/memberClass=class/memberCode=code/subsystemCode=subsystem/serviceCode=service/version=serviceVersion"
+        expected_wsdl_path = "xRoadInstance=instance&memberClass=class&memberCode=code&subsystemCode=subsystem&serviceCode=service&version=serviceVersion"
         expected_url = f"{ssu}/wsdl?{expected_wsdl_path}"
 
         self.assertEqual(member.wsdl_url(ssu), expected_url)
@@ -69,13 +69,11 @@ class TestMembers(unittest.TestCase):
             objectType="OTHER_TYPE",
             memberPath="instance/class/code/subsystem/service/serviceVersion",
         )
-        try:
-            path = member.wsdl_path
-        except Exception as e:
-            self.assertEqual(
-                str(e), "wsdl_path is only available for SERVICE objectType"
-            )
-        print(path)
+        with self.assertRaises(ValueError) as ctx:
+            _ = member.wsdl_path
+        self.assertEqual(
+            str(ctx.exception), "wsdl_path is only available for SERVICE objectType"
+        )
 
 
 if __name__ == "__main__":
