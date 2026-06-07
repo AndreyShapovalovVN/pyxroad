@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "pyxroad"
-version = "1.5.7"
+version = "1.5.8"
 description = "X-Road (Trembita) Python client library for SOAP-based service integration"
 authors = [{ name = "Andrii Shapovalov", email = "mt.andrey@gmail.com" }]
 readme = "README.md"
