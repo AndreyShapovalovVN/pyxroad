@@ -1,6 +1,6 @@
 # X-Road (Trembita) Python Client
 
-- **Version:** 1.5.4
+- **Version:** 1.5.5
 - **Web:** https://trembita.gov.ua
 - **Repository:** https://github.com/AndreyShapovalovVN/pyxroad
 - **Keywords:** x-road, xroad, trembita, python, soap
@@ -11,8 +11,6 @@ developers to easily integrate X-Road services into their Python applications.
 
 ## Supported Python Versions
 
-- Python 3.8+
-- Python 3.9+
 - Python 3.10+
 - Python 3.11+
 - Python 3.12+
@@ -49,6 +47,16 @@ pip install -e .
 - setuptools >= 68.1.2
 - zeep >= 4.0.0
 - redis (optional, for Redis cache support)
+
+## Code Quality Checks
+
+Run the same checks locally as in CI:
+
+```bash
+ruff check . --extend-exclude 'tests/~*.py'
+mypy . --ignore-missing-imports --pretty --show-error-codes --exclude 'tests/~.*\.py$'
+pytest --maxfail=2 --disable-warnings --ignore-glob='tests/~*.py'
+```
 
 ## Quick Start
 
@@ -126,4 +134,3 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 For issues, questions, and contributions, please visit:
 https://github.com/AndreyShapovalovVN/pyxroad
-
