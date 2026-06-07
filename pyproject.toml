@@ -1,0 +1,65 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "XRoad"
+version = "1.5.4"
+description = "X-Road (Trembita) Python client library for SOAP-based service integration"
+authors = [{ name = "Andrii Shapovalov", email = "mt.andrey@gmail.com" }]
+readme = "README.rst"
+license = { text = "MIT" }
+requires-python = ">=3.10"
+keywords = ["x-road", "xroad", "trembita", "soap", "python"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: System :: Networking",
+]
+dependencies = [
+    "lxml>=5.2.1",
+    "Requests>=2.32.3",
+    "setuptools>=68.1.2",
+    "zeep>=4.0.0",
+]
+
+[project.optional-dependencies]
+redis = ["redis>=4.5.0"]
+dev = [
+    "pytest>=8.0.0",
+    "pytest-cov>=4.0.0",
+    "mypy>=1.0.0",
+    "black>=23.0.0",
+    "flake8>=6.0.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/AndreyShapovalovVN/pyxroad"
+Repository = "https://github.com/AndreyShapovalovVN/pyxroad.git"
+Documentation = "https://trembita.gov.ua"
+
+[tool.setuptools]
+packages = ["XRoad"]
+
+[tool.setuptools.package-data]
+XRoad = ["py.typed"]
+
+[tool.mypy]
+python_version = "3.10"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = false
+disallow_incomplete_defs = false
+
+[tool.ruff]
+target-version = "py310"
+
+[tool.black]
+line-length = 100
+target-version = ["py310", "py311", "py312"]
