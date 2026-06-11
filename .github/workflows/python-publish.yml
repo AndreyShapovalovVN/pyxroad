@@ -9,7 +9,6 @@ env:
 
 permissions:
   contents: read
-  id-token: write  # Обов'язково для Trusted Publishing
 
 jobs:
   test:
@@ -32,6 +31,8 @@ jobs:
     name: Upload to PyPI
     runs-on: ubuntu-latest
     environment: pypi  # Має збігатися з назвою у налаштуваннях PyPI
+    permissions:
+      id-token: write  # Обов'язково для Trusted Publishing
     steps:
       - uses: actions/checkout@v5
       - name: Set up Python

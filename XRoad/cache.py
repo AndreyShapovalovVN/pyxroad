@@ -9,7 +9,6 @@ _logger = logging.getLogger(__name__)
 try:
     from redis import Redis
 except ImportError:
-    _logger.warning("Redis is not installed, caching will not be available")
     Redis = None
 
 
