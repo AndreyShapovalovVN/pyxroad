@@ -1,6 +1,6 @@
 # X-Road (Trembita) Python Client
 
-- **Version:** 1.5.9
+- **Version:** 1.5.10
 - **Web:** https://trembita.gov.ua
 - **Repository:** https://github.com/AndreyShapovalovVN/pyxroad
 - **Keywords:** x-road, xroad, trembita, python, soap
