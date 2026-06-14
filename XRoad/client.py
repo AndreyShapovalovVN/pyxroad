@@ -116,7 +116,7 @@ class XClient(Client):
         try:
             response = self.service[service](**kwargs)
         except Fault as error:
-            _logger.error("service error (%s: %s)", error.code, error.message)
+            _logger.exception("service error (%s: %s)", error.code, error.message)
             raise Fault(error)
         else:
             s_object = serialize_object(response)

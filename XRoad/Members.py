@@ -10,14 +10,14 @@ class Members:
     This class is used to parse the memberPath and create a dictionary with the member details.
     """
 
-    objectType: str
-    memberPath: str
-    xRoadInstance: str | None = None
-    memberClass: str | None = None
-    memberCode: str | None = None
-    subsystemCode: str | None = None
-    serviceCode: str | None = None
-    serviceVersion: str | None = None
+    objectType: str  # NOSONAR
+    memberPath: str  # NOSONAR
+    xRoadInstance: str | None = None  # NOSONAR
+    memberClass: str | None = None  # NOSONAR
+    memberCode: str | None = None  # NOSONAR
+    subsystemCode: str | None = None  # NOSONAR
+    serviceCode: str | None = None  # NOSONAR
+    serviceVersion: str | None = None  # NOSONAR
 
     def __post_init__(self):
         """
