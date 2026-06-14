@@ -1,6 +1,6 @@
 import hashlib
 import logging
-from typing import Any, cast
+from typing import Any, Optional, cast
 
 from zeep.cache import Base, InMemoryCache
 
@@ -9,7 +9,7 @@ _logger = logging.getLogger(__name__)
 try:
     from redis import Redis
 except ImportError:
-    Redis = None
+    Redis = None  # type: ignore[assignment, misc]
 
 
 class RedisCache(Base):
@@ -32,6 +32,8 @@ class RedisCache(Base):
 
     _version = "1"
     
+    redis_client: Optional[Any]
+
     def __new__(cls,  path: str | Any | None = None, timeout: int = 3600):
         if Redis is None:
             _logger.warning("Redis is not installed, caching will not be available")
@@ -51,7 +53,7 @@ class RedisCache(Base):
             return InMemoryCache(timeout=timeout)
 
         instance = super().__new__(cls)
-        instance._redis_client = redis_client
+        instance.redis_client = redis_client
         return instance
 
     def __init__(self, path: str | Redis | None = None, timeout: int = 3600):
@@ -65,7 +67,6 @@ class RedisCache(Base):
 
         :raises TypeError: If `path` is not a string or an instance of Redis.
         """
-        self.redis_client = self._redis_client
         self.ttl = timeout
         self.prefix = "zeep:cache:"
 
@@ -88,7 +89,8 @@ class RedisCache(Base):
         """
         _logger.debug("Caching contents of %s", url)
         key = self._key(url)
-        self.redis_client.set(key, content, ex=self.ttl)
+        if self.redis_client is not None:
+            self.redis_client.set(key, content, ex=self.ttl)
 
     def get(self, url: str) -> bytes | None:
         """
@@ -103,9 +105,10 @@ class RedisCache(Base):
         :rtype: Bytes or None
         """
         key = self._key(url)
-        content = cast(bytes | None, self.redis_client.get(key))
-        if content:
-            _logger.debug("Cache HIT for %s", url)
-            return content
+        if self.redis_client is not None:
+            content = cast(bytes | None, self.redis_client.get(key))
+            if content:
+                _logger.debug("Cache HIT for %s", url)
+                return content
         _logger.debug("Cache MISS for %s", url)
         return None
