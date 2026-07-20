@@ -822,7 +822,7 @@ requires-dist = [
     { name = "redis", marker = "extra == 'redis'", specifier = ">=8.0.1" },
     { name = "requests", specifier = ">=2.33.0" },
     { name = "ruff", marker = "extra == 'dev'", specifier = ">=0.15.21" },
-    { name = "setuptools", specifier = ">=70.0.0" },
+    { name = "setuptools", specifier = ">=78.1.1" },
     { name = "zeep", specifier = ">=4.3.3" },
 ]
 provides-extras = ["redis", "dev"]
