@@ -23,22 +23,21 @@ classifiers = [
     "Topic :: System :: Networking",
 ]
 dependencies = [
-    "lxml>=5.2.1",
+    "lxml>=6.1.1",
     "Requests>=2.32.3",
     "setuptools>=70.0.0",
-    "zeep>=4.0.0",
-    "redis",
+    "zeep>=4.3.3",
+    "redis>=8.0.1",
 ]
 
 [project.optional-dependencies]
 redis = ["redis>=4.5.0"]
 dev = [
-    "pytest>=8.0.0",
+    "pytest>=9.1.1",
     "pytest-cov>=4.0.0",
-    "mypy>=1.0.0",
+    "mypy>=1.13.0",
     "black>=23.0.0",
-    "flake8>=6.0.0",
-    "ruff>=0.4.0",
+    "ruff>=0.15.21",
 ]
 
 [project.urls]

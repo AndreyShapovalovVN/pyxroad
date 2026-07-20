@@ -374,20 +374,6 @@ wheels = [
 ]
 
 [[package]]
-name = "flake8"
-version = "7.3.0"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "mccabe" },
-    { name = "pycodestyle" },
-    { name = "pyflakes" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/9b/af/fbfe3c4b5a657d79e5c47a2827a362f9e1b763336a52f926126aa6dc7123/flake8-7.3.0.tar.gz", hash = "sha256:fe044858146b9fc69b551a4b490d69cf960fcb78ad1edcb84e7fbb1b4a8e3872", size = 48326, upload-time = "2025-06-20T19:31:35.838Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/9f/56/13ab06b4f93ca7cac71078fbe37fcea175d3216f31f85c3168a6bbd0bb9a/flake8-7.3.0-py2.py3-none-any.whl", hash = "sha256:b9696257b9ce8beb888cdbe31cf885c90d31928fe202be0889a7cdafad32f01e", size = 57922, upload-time = "2025-06-20T19:31:34.425Z" },
-]
-
-[[package]]
 name = "idna"
 version = "3.18"
 source = { registry = "https://pypi.org/simple" }
@@ -618,15 +604,6 @@ wheels = [
 ]
 
 [[package]]
-name = "mccabe"
-version = "0.7.0"
-source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/e7/ff/0ffefdcac38932a54d2b5eed4e0ba8a408f215002cd178ad1df0f2806ff8/mccabe-0.7.0.tar.gz", hash = "sha256:348e0240c33b60bbdf4e523192ef919f28cb2c3d7d5c7794f74009290f236325", size = 9658, upload-time = "2022-01-24T01:14:51.113Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/27/1a/1f68f9ba0c207934b35b86a8ca3aad8395a3d6dd7921c0686e23853ff5a9/mccabe-0.7.0-py2.py3-none-any.whl", hash = "sha256:6c2d30ab6be0e4a46919781807b4f0d834ebdd6c6e3dca0bda5a15f863427b6e", size = 7350, upload-time = "2022-01-24T01:14:49.62Z" },
-]
-
-[[package]]
 name = "mypy"
 version = "2.1.0"
 source = { registry = "https://pypi.org/simple" }
@@ -731,24 +708,6 @@ wheels = [
 ]
 
 [[package]]
-name = "pycodestyle"
-version = "2.14.0"
-source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/11/e0/abfd2a0d2efe47670df87f3e3a0e2edda42f055053c85361f19c0e2c1ca8/pycodestyle-2.14.0.tar.gz", hash = "sha256:c4b5b517d278089ff9d0abdec919cd97262a3367449ea1c8b49b91529167b783", size = 39472, upload-time = "2025-06-20T18:49:48.75Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/d7/27/a58ddaf8c588a3ef080db9d0b7e0b97215cee3a45df74f3a94dbbf5c893a/pycodestyle-2.14.0-py2.py3-none-any.whl", hash = "sha256:dd6bf7cb4ee77f8e016f9c8e74a35ddd9f67e1d5fd4184d86c3b98e07099f42d", size = 31594, upload-time = "2025-06-20T18:49:47.491Z" },
-]
-
-[[package]]
-name = "pyflakes"
-version = "3.4.0"
-source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/45/dc/fd034dc20b4b264b3d015808458391acbf9df40b1e54750ef175d39180b1/pyflakes-3.4.0.tar.gz", hash = "sha256:b24f96fafb7d2ab0ec5075b7350b3d2d2218eab42003821c06344973d3ea2f58", size = 64669, upload-time = "2025-06-20T18:45:27.834Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/c2/2f/81d580a0fb83baeb066698975cb14a618bdbed7720678566f1b046a95fe8/pyflakes-3.4.0-py2.py3-none-any.whl", hash = "sha256:f742a7dbd0d9cb9ea41e9a24a918996e8170c799fa528688d40dd582c8265f4f", size = 63551, upload-time = "2025-06-20T18:45:26.937Z" },
-]
-
-[[package]]
 name = "pygments"
 version = "2.20.0"
 source = { registry = "https://pypi.org/simple" }
@@ -759,7 +718,7 @@ wheels = [
 
 [[package]]
 name = "pytest"
-version = "9.1.0"
+version = "9.1.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "colorama", marker = "sys_platform == 'win32'" },
@@ -770,9 +729,9 @@ dependencies = [
     { name = "pygments" },
     { name = "tomli", marker = "python_full_version < '3.11'" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/84/0e/b5858858d74958632c49b72cb25a3976ff9f632397626715be71c89d3971/pytest-9.1.0.tar.gz", hash = "sha256:41dd9148c08072446394cefd3d79701701335a9f4cae69ba92e39f6c7f5c061c", size = 1634181, upload-time = "2026-06-13T18:52:45.983Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/e4/47/b9efed96c114afcfa3c9d3fe98a76a1d14c74a9e266d397cf6eb64be5e01/pytest-9.1.1.tar.gz", hash = "sha256:1088fbde8f2b49d95a549a195707afa7a76a3ce9bcadc26b6d71f0ffda5fe313", size = 1636369, upload-time = "2026-06-19T10:58:32.857Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/8b/5a/ba30a81239b909821b3153e303e7def45178bf353da4f72380e6c5e8793b/pytest-9.1.0-py3-none-any.whl", hash = "sha256:8ebb0e7888bdf2bdfc602ec51f8f62d50200af37356c74e503c79a94f5c81f32", size = 386453, upload-time = "2026-06-13T18:52:44.045Z" },
+    { url = "https://files.pythonhosted.org/packages/24/25/1de2678b631f5a49215c6c96fff41ba892b0a34df68d6d80292b1b48aa7f/pytest-9.1.1-py3-none-any.whl", hash = "sha256:37a86b45efb9a47a61a36449063e8e18d0cab3161329fc099eb21783169c4f0c", size = 386536, upload-time = "2026-06-19T10:58:31.347Z" },
 ]
 
 [[package]]
@@ -829,15 +788,6 @@ wheels = [
 ]
 
 [[package]]
-name = "pytz"
-version = "2026.2"
-source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/ff/46/dd499ec9038423421951e4fad73051febaa13d2df82b4064f87af8b8c0c3/pytz-2026.2.tar.gz", hash = "sha256:0e60b47b29f21574376f218fe21abc009894a2321ea16c6754f3cad6eb7cdd6a", size = 320861, upload-time = "2026-05-04T01:35:29.667Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/ec/dd/96da98f892250475bdf2328112d7468abdd4acc7b902b6af23f4ed958ea0/pytz-2026.2-py2.py3-none-any.whl", hash = "sha256:04156e608bee23d3792fd45c94ae47fae1036688e75032eea2e3bf0323d1f126", size = 510141, upload-time = "2026-05-04T01:35:27.408Z" },
-]
-
-[[package]]
 name = "pyxroad"
 version = "1.5.10"
 source = { editable = "." }
@@ -852,7 +802,6 @@ dependencies = [
 [package.optional-dependencies]
 dev = [
     { name = "black" },
-    { name = "flake8" },
     { name = "mypy" },
     { name = "pytest" },
     { name = "pytest-cov" },
@@ -865,30 +814,29 @@ redis = [
 [package.metadata]
 requires-dist = [
     { name = "black", marker = "extra == 'dev'", specifier = ">=23.0.0" },
-    { name = "flake8", marker = "extra == 'dev'", specifier = ">=6.0.0" },
-    { name = "lxml", specifier = ">=5.2.1" },
-    { name = "mypy", marker = "extra == 'dev'", specifier = ">=1.0.0" },
-    { name = "pytest", marker = "extra == 'dev'", specifier = ">=8.0.0" },
+    { name = "lxml", specifier = ">=6.1.1" },
+    { name = "mypy", marker = "extra == 'dev'", specifier = ">=1.13.0" },
+    { name = "pytest", marker = "extra == 'dev'", specifier = ">=9.1.1" },
     { name = "pytest-cov", marker = "extra == 'dev'", specifier = ">=4.0.0" },
-    { name = "redis" },
+    { name = "redis", specifier = ">=8.0.1" },
     { name = "redis", marker = "extra == 'redis'", specifier = ">=4.5.0" },
     { name = "requests", specifier = ">=2.32.3" },
-    { name = "ruff", marker = "extra == 'dev'", specifier = ">=0.4.0" },
+    { name = "ruff", marker = "extra == 'dev'", specifier = ">=0.15.21" },
     { name = "setuptools", specifier = ">=70.0.0" },
-    { name = "zeep", specifier = ">=4.0.0" },
+    { name = "zeep", specifier = ">=4.3.3" },
 ]
 provides-extras = ["redis", "dev"]
 
 [[package]]
 name = "redis"
-version = "8.0.0"
+version = "8.0.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "async-timeout", marker = "python_full_version < '3.11.3'" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/53/ae/ed461cca5780b5fc8b9fe8ca0ed98d89508645fb9d880c24cc42c087678f/redis-8.0.0.tar.gz", hash = "sha256:a00c5355432051ac14e593b8b197fc76c887ee12d55a0984f69328a1115fdc49", size = 5101591, upload-time = "2026-05-28T12:45:13.5Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/cc/c3/928b290c2c0ca99ab96eea5b4ff8f30be8112b075301a7d3ba214a3c8c12/redis-8.0.1.tar.gz", hash = "sha256:afc5a7a2f5a084f5b1880dec548dd45be17db7e43c82a30d84f952aefb05cfb0", size = 5114170, upload-time = "2026-06-23T14:52:37.728Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/27/e3/b519734372d305bd547534a9f32e4ce9f98552af753dce72cf3483a0ff0b/redis-8.0.0-py3-none-any.whl", hash = "sha256:c938c18338585009f0bc310f4c7e4e4b4d37639356c4ac072cedf3af570c8dc7", size = 499870, upload-time = "2026-05-28T12:45:11.697Z" },
+    { url = "https://files.pythonhosted.org/packages/fd/0a/c2345ebf1ebe70840ce3f6c6ee612f8fa749cfbd1b03069c53bf0c62aaad/redis-8.0.1-py3-none-any.whl", hash = "sha256:47daa35a058c23468d6437f17a8c76882cb316b838ef763036af99b96cedd743", size = 502406, upload-time = "2026-06-23T14:52:36.137Z" },
 ]
 
 [[package]]
@@ -1038,19 +986,18 @@ wheels = [
 
 [[package]]
 name = "zeep"
-version = "4.3.2"
+version = "4.3.3"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "attrs" },
     { name = "isodate" },
     { name = "lxml" },
     { name = "platformdirs" },
-    { name = "pytz" },
     { name = "requests" },
     { name = "requests-file" },
     { name = "requests-toolbelt" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/e8/06/4f1d3ff61e930163565fb73616c6251e412a4d2fc7ed18214e1c2107258d/zeep-4.3.2.tar.gz", hash = "sha256:1a23a667ce9d73a0dbfdf15745bfa2b7ab0b6402135c0cd5067574838398e0e6", size = 166687, upload-time = "2025-09-15T10:26:03.4Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/7e/c2/e06e5f177d818d0fc34fcbe2f98c175af2cba63b7d90f4bfcb6fe360d343/zeep-4.3.3.tar.gz", hash = "sha256:99d5059f92f721020998695fd9c85289ccb03ec5a2398ad49c6dbe43f19cfb94", size = 167372, upload-time = "2026-06-18T17:17:58.994Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/cd/78/f43f3feb70d67cbe260ec5b682ecc3c1850c8f437f1df707495126e51817/zeep-4.3.2-py3-none-any.whl", hash = "sha256:ed08c3179709172bfaaa9b76a6a545f8a57043ec6218e64e9deb81ff1e0ff79b", size = 101853, upload-time = "2025-09-15T10:26:02.12Z" },
+    { url = "https://files.pythonhosted.org/packages/b5/87/5c1d29f52fc32da98b75dc8a681cd0de78c9cfd5c10493cd7fb730e1d4b0/zeep-4.3.3-py3-none-any.whl", hash = "sha256:5adfae35582848819f8bb97b6ea9f1a34a2d4851a539f830e14dbab09961dd18", size = 102054, upload-time = "2026-06-18T17:17:57.223Z" },
 ]
