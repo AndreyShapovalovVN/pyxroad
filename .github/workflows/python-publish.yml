@@ -22,10 +22,11 @@ jobs:
           python-version: "3.12"
           enable-cache: true
           cache-dependency-glob: "uv.lock"
+      # Install dependency wheels only; test the checked-out source without building it.
       - name: Install dependencies
-        run: uv sync --locked --extra dev
+        run: uv sync --locked --extra dev --no-build --no-install-project
       - name: Run tests
-        run: uv run --locked --extra dev pytest
+        run: uv run --no-sync python -m pytest
 
   pypi-publish:
     needs: test
@@ -43,13 +44,14 @@ jobs:
           python-version: "3.12"
           enable-cache: true
           cache-dependency-glob: "uv.lock"
+      # The project is built explicitly below, not during dependency installation.
       - name: Install locked build dependencies
-        run: uv sync --locked
+        run: uv sync --locked --no-build --no-install-project
       - name: Check license inventory
-        run: uv run --locked python scripts/check_licenses.py
+        run: uv run --no-sync python scripts/check_licenses.py
       - name: Build package
         run: uv build --no-build-isolation
       - name: Check packaged license notices
-        run: uv run --locked python scripts/check_licenses.py --dist-dir dist
+        run: uv run --no-sync python scripts/check_licenses.py --dist-dir dist
       - name: Publish to PyPI
         run: uv publish --trusted-publishing always
