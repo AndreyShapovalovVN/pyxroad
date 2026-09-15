@@ -33,16 +33,16 @@ jobs:
         run: uv sync --locked --extra dev --no-build --no-install-project
 
       - name: Check license inventory
-        run: uv run --no-sync python scripts/check_licenses.py
+        run: uv run --no-build --no-sync python scripts/check_licenses.py
 
       - name: Lint with Ruff
-        run: uv run --no-sync ruff check . --extend-exclude 'tests/~*.py'
+        run: uv run --no-build --no-sync ruff check . --extend-exclude 'tests/~*.py'
 
       - name: Type check with mypy
-        run: uv run --no-sync mypy . --ignore-missing-imports --pretty --show-error-codes
+        run: uv run --no-build --no-sync mypy . --ignore-missing-imports --pretty --show-error-codes
 
       - name: Run tests with pytest
-        run: uv run --no-sync python -m pytest --maxfail=2 --disable-warnings --ignore-glob='tests/~*.py'
+        run: uv run --no-build --no-sync python -m pytest --maxfail=2 --disable-warnings --ignore-glob='tests/~*.py'
 
   gitleaks:
     name: Gitleaks Secret Scan
