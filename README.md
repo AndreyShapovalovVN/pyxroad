@@ -24,39 +24,58 @@ developers to easily integrate X-Road services into their Python applications.
 - Configurable logging
 - Type hints for better IDE support
 
-## Installation from GitHub
+## Installation and development with uv
 
-Using pip:
+Install [uv](https://docs.astral.sh/uv/getting-started/installation/).
+To add pyxroad to another uv project:
 
 ```bash
-pip install git+https://github.com/AndreyShapovalovVN/pyxroad.git#egg=pyxroad
+uv add git+https://github.com/AndreyShapovalovVN/pyxroad.git
 ```
 
-Or clone and install locally:
+To work on this repository:
 
 ```bash
 git clone https://github.com/AndreyShapovalovVN/pyxroad.git
 cd pyxroad
-pip install -e .
+uv sync --locked --extra dev
 ```
 
-## Requirements
+uv creates `.venv` and installs the project and development tools. The
+`.python-version` file selects Python 3.12 for development and CI; the library
+continues to support Python 3.10+. For runtime dependencies only, use
+`uv sync --locked`.
 
-- lxml >= 5.2.1
-- Requests >= 2.32.3
-- setuptools >= 68.1.2
-- zeep >= 4.0.0
-- redis (optional, for Redis cache support)
+Dependencies are declared in `pyproject.toml`; `uv.lock` records exact versions.
+Commit both files when changing dependencies with `uv add`, `uv remove`, or
+`uv lock --upgrade-package PACKAGE`. Refresh the component license inventory
+when runtime dependencies change. `--locked` rejects a stale lockfile.
 
 ## Code Quality Checks
 
 Run the same checks locally as in CI:
 
 ```bash
-ruff check . --extend-exclude 'tests/~*.py'
-mypy . --ignore-missing-imports --pretty --show-error-codes --exclude 'tests/~.*\.py$'
-pytest --maxfail=2 --disable-warnings --ignore-glob='tests/~*.py'
+uv run --locked --extra dev python scripts/check_licenses.py
+uv run --locked --extra dev ruff check . --extend-exclude 'tests/~*.py'
+uv run --locked --extra dev mypy . --ignore-missing-imports --pretty --show-error-codes
+uv run --locked --extra dev pytest --maxfail=2 --disable-warnings --ignore-glob='tests/~*.py'
 ```
+
+## Build and publish
+
+Build using the setuptools version installed from `uv.lock`, then verify that
+both distributions contain the license materials:
+
+```bash
+uv sync --locked
+uv build --no-build-isolation
+uv run --locked python scripts/check_licenses.py --dist-dir dist
+```
+
+The release workflow runs tests and these checks, then publishes with
+`uv publish --trusted-publishing always` using the existing PyPI Trusted Publisher
+and `pypi` GitHub environment.
 
 ## Quick Start
 
@@ -131,7 +150,9 @@ client.id = 'ABCD123456'      # Custom request ID
 
 ## License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+This project is licensed under the [MIT License](LICENSE). Third-party components
+retain their own licenses. See the [component inventory](licenses.md) and
+[third-party notices and redistribution guidance](THIRD_PARTY_NOTICES.md).
 
 ## Support
 

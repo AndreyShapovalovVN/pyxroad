@@ -1,0 +1,3 @@
+include uv.lock
+include scripts/check_licenses.py
+include .python-version

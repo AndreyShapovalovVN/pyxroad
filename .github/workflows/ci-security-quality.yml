@@ -20,27 +20,28 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
 
-      - name: Set up Python
-        uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405
+      - name: Set up uv and Python
+        uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9 # v9.0.0
         with:
+          version: "0.11.21"
           python-version: "3.12"
-          cache: "pip"
-          cache-dependency-path: |
-            pyproject.toml
+          enable-cache: true
+          cache-dependency-glob: "uv.lock"
 
       - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install ".[dev]"
+        run: uv sync --locked --extra dev
+
+      - name: Check license inventory
+        run: uv run --locked --extra dev python scripts/check_licenses.py
 
       - name: Lint with Ruff
-        run: ruff check . --extend-exclude 'tests/~*.py'
+        run: uv run --locked --extra dev ruff check . --extend-exclude 'tests/~*.py'
 
       - name: Type check with mypy
-        run: mypy . --ignore-missing-imports --pretty --show-error-codes
+        run: uv run --locked --extra dev mypy . --ignore-missing-imports --pretty --show-error-codes
 
       - name: Run tests with pytest
-        run: pytest --maxfail=2 --disable-warnings --ignore-glob='tests/~*.py'
+        run: uv run --locked --extra dev pytest --maxfail=2 --disable-warnings --ignore-glob='tests/~*.py'
 
   gitleaks:
     name: Gitleaks Secret Scan

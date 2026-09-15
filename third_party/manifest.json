@@ -1,0 +1,432 @@
+{
+  "scope": "Runtime dependencies in uv.lock, including conditional dependencies; installed Linux CPython 3.12 distribution notices plus identified upstream supplements. Not an inventory of an application/container or development environment.",
+  "packages": [
+    {
+      "name": "async-timeout",
+      "version": "5.0.1",
+      "source": {
+        "url": "https://files.pythonhosted.org/packages/a5/ae/136395dfbfe00dfc94da3f3e136d0b13f394cba8f4841120e34226265780/async_timeout-5.0.1.tar.gz",
+        "hash": "sha256:d9321a7a3d5a6a5e187e824d2fa0793ce379a202935782d555d6e9d2735677d3",
+        "size": 9274,
+        "upload-time": "2024-11-06T16:41:39.6Z"
+      }
+    },
+    {
+      "name": "attrs",
+      "version": "26.1.0",
+      "source": {
+        "url": "https://files.pythonhosted.org/packages/9a/8e/82a0fe20a541c03148528be8cac2408564a6c9a0cc7e9171802bc1d26985/attrs-26.1.0.tar.gz",
+        "hash": "sha256:d03ceb89cb322a8fd706d4fb91940737b6642aa36998fe130a9bc96c985eff32",
+        "size": 952055,
+        "upload-time": "2026-03-19T14:22:25.026Z"
+      }
+    },
+    {
+      "name": "certifi",
+      "version": "2026.5.20",
+      "source": {
+        "url": "https://files.pythonhosted.org/packages/f3/ce/ee2ecad540810a79593028e88299baeae54d346cc7a0d94b6199988b89b1/certifi-2026.5.20.tar.gz",
+        "hash": "sha256:69dea482ab64caa7b9f6aba1c6bf48bb6a5448d1c0f1b17ab42ad8c763a5344d",
+        "size": 135422,
+        "upload-time": "2026-05-20T11:46:50.073Z"
+      }
+    },
+    {
+      "name": "charset-normalizer",
+      "version": "3.4.7",
+      "source": {
+        "url": "https://files.pythonhosted.org/packages/e7/a1/67fe25fac3c7642725500a3f6cfe5821ad557c3abb11c9d20d12c7008d3e/charset_normalizer-3.4.7.tar.gz",
+        "hash": "sha256:ae89db9e5f98a11a4bf50407d4363e7b09b31e55bc117b4f7d80aab97ba009e5",
+        "size": 144271,
+        "upload-time": "2026-04-02T09:28:39.342Z"
+      }
+    },
+    {
+      "name": "idna",
+      "version": "3.18",
+      "source": {
+        "url": "https://files.pythonhosted.org/packages/cd/63/9496c57188a2ee585e0f1db071d75089a11e98aa86eb99d9d7618fc1edce/idna-3.18.tar.gz",
+        "hash": "sha256:ffb385a7e039654cef1ab9ef32c6fafe283c0c0467bba1d9029738ce4a14a848",
+        "size": 196711,
+        "upload-time": "2026-06-02T14:34:07.794Z"
+      }
+    },
+    {
+      "name": "isodate",
+      "version": "0.7.2",
+      "source": {
+        "url": "https://files.pythonhosted.org/packages/54/4d/e940025e2ce31a8ce1202635910747e5a87cc3a6a6bb2d00973375014749/isodate-0.7.2.tar.gz",
+        "hash": "sha256:4cd1aa0f43ca76f4a6c6c0292a85f40b35ec2e43e315b59f06e6d32171a953e6",
+        "size": 29705,
+        "upload-time": "2024-10-08T23:04:11.5Z"
+      }
+    },
+    {
+      "name": "lxml",
+      "version": "6.1.1",
+      "source": {
+        "url": "https://files.pythonhosted.org/packages/05/3b/aab6728cae887456f409b4d75e8a01856e4f04bd510de38052a47768b680/lxml-6.1.1.tar.gz",
+        "hash": "sha256:ba96ae44888e0185281e937633a743ea90d5a196c6000f82565ebb0580012d40",
+        "size": 4197430,
+        "upload-time": "2026-05-18T19:19:06.424Z"
+      }
+    },
+    {
+      "name": "platformdirs",
+      "version": "4.10.0",
+      "source": {
+        "url": "https://files.pythonhosted.org/packages/d7/47/e4501f49c178ae1d9f4a75073fda4204f52647993f075a9db4d14930e0c5/platformdirs-4.10.0.tar.gz",
+        "hash": "sha256:31e761a6a0ca04faf7353ea759bdba55652be214725111e5aac52dfa29d4bef7",
+        "size": 31224,
+        "upload-time": "2026-05-28T03:32:53.587Z"
+      }
+    },
+    {
+      "name": "redis",
+      "version": "8.0.1",
+      "source": {
+        "url": "https://files.pythonhosted.org/packages/cc/c3/928b290c2c0ca99ab96eea5b4ff8f30be8112b075301a7d3ba214a3c8c12/redis-8.0.1.tar.gz",
+        "hash": "sha256:afc5a7a2f5a084f5b1880dec548dd45be17db7e43c82a30d84f952aefb05cfb0",
+        "size": 5114170,
+        "upload-time": "2026-06-23T14:52:37.728Z"
+      }
+    },
+    {
+      "name": "requests",
+      "version": "2.33.0",
+      "source": {
+        "url": "https://files.pythonhosted.org/packages/34/64/8860370b167a9721e8956ae116825caff829224fbca0ca6e7bf8ddef8430/requests-2.33.0.tar.gz",
+        "hash": "sha256:c7ebc5e8b0f21837386ad0e1c8fe8b829fa5f544d8df3b2253bff14ef29d7652",
+        "size": 134232,
+        "upload-time": "2026-03-25T15:10:41.586Z"
+      }
+    },
+    {
+      "name": "requests-file",
+      "version": "3.0.1",
+      "source": {
+        "url": "https://files.pythonhosted.org/packages/3c/f8/5dc70102e4d337063452c82e1f0d95e39abfe67aa222ed8a5ddeb9df8de8/requests_file-3.0.1.tar.gz",
+        "hash": "sha256:f14243d7796c588f3521bd423c5dea2ee4cc730e54a3cac9574d78aca1272576",
+        "size": 6967,
+        "upload-time": "2025-10-20T18:56:42.279Z"
+      }
+    },
+    {
+      "name": "requests-toolbelt",
+      "version": "1.0.0",
+      "source": {
+        "url": "https://files.pythonhosted.org/packages/f3/61/d7545dafb7ac2230c70d38d31cbfe4cc64f7144dc41f6e4e4b78ecd9f5bb/requests-toolbelt-1.0.0.tar.gz",
+        "hash": "sha256:7681a0a3d047012b5bdc0ee37d7f8f07ebe76ab08caeccfc3921ce23c88d5bc6",
+        "size": 206888,
+        "upload-time": "2023-05-01T04:11:33.229Z"
+      }
+    },
+    {
+      "name": "setuptools",
+      "version": "78.1.1",
+      "source": {
+        "url": "https://files.pythonhosted.org/packages/81/9c/42314ee079a3e9c24b27515f9fbc7a3c1d29992c33451779011c74488375/setuptools-78.1.1.tar.gz",
+        "hash": "sha256:fcc17fd9cd898242f6b4adfaca46137a9edef687f43e6f78469692a5e70d851d",
+        "size": 1368163,
+        "upload-time": "2025-04-19T18:23:36.68Z"
+      }
+    },
+    {
+      "name": "urllib3",
+      "version": "2.7.0",
+      "source": {
+        "url": "https://files.pythonhosted.org/packages/53/0c/06f8b233b8fd13b9e5ee11424ef85419ba0d8ba0b3138bf360be2ff56953/urllib3-2.7.0.tar.gz",
+        "hash": "sha256:231e0ec3b63ceb14667c67be60f2f2c40a518cb38b03af60abc813da26505f4c",
+        "size": 433602,
+        "upload-time": "2026-05-07T16:13:18.596Z"
+      }
+    },
+    {
+      "name": "zeep",
+      "version": "4.3.3",
+      "source": {
+        "url": "https://files.pythonhosted.org/packages/7e/c2/e06e5f177d818d0fc34fcbe2f98c175af2cba63b7d90f4bfcb6fe360d343/zeep-4.3.3.tar.gz",
+        "hash": "sha256:99d5059f92f721020998695fd9c85289ccb03ec5a2398ad49c6dbe43f19cfb94",
+        "size": 167372,
+        "upload-time": "2026-06-18T17:17:58.994Z"
+      }
+    }
+  ],
+  "files": [
+    {
+      "path": "third_party/licenses/async-timeout/5.0.1/LICENSE",
+      "sha256": "e18d7bb8f513e2c46bb585c94b585bd30720dd3ccb21ddb0786f72d16658f92c",
+      "origin": "https://files.pythonhosted.org/packages/a5/ae/136395dfbfe00dfc94da3f3e136d0b13f394cba8f4841120e34226265780/async_timeout-5.0.1.tar.gz#LICENSE"
+    },
+    {
+      "path": "third_party/licenses/attrs/26.1.0/attrs-26.1.0.dist-info/licenses/LICENSE",
+      "sha256": "882115c95dfc2af1eeb6714f8ec6d5cbcabf667caff8729f42420da63f714e9f",
+      "origin": "Installed distribution attrs==26.1.0: attrs-26.1.0.dist-info/licenses/LICENSE"
+    },
+    {
+      "path": "third_party/licenses/certifi/2026.5.20/certifi-2026.5.20.dist-info/licenses/LICENSE",
+      "sha256": "e93716da6b9c0d5a4a1df60fe695b370f0695603d21f6f83f053e42cfc10caf7",
+      "origin": "Installed distribution certifi==2026.5.20: certifi-2026.5.20.dist-info/licenses/LICENSE"
+    },
+    {
+      "path": "third_party/licenses/charset-normalizer/3.4.7/charset_normalizer-3.4.7.dist-info/licenses/LICENSE",
+      "sha256": "6d0d41bfe170ac6c7dc248c9a63e254d0fb45a60d50a8257d0af92c6e249b887",
+      "origin": "Installed distribution charset-normalizer==3.4.7: charset_normalizer-3.4.7.dist-info/licenses/LICENSE"
+    },
+    {
+      "path": "third_party/licenses/idna/3.18/idna-3.18.dist-info/licenses/LICENSE.md",
+      "sha256": "1a9a4f0e3d479a27240ddd59a9137a66ab4a0f9dfdc8ca6188cc0bfd85187f04",
+      "origin": "Installed distribution idna==3.18: idna-3.18.dist-info/licenses/LICENSE.md"
+    },
+    {
+      "path": "third_party/licenses/isodate/0.7.2/isodate-0.7.2.dist-info/LICENSE",
+      "sha256": "ce5fe4893fb6ab843de77b367bfa9db974d7b00ab9033fcca8d7760a97fe1b43",
+      "origin": "Installed distribution isodate==0.7.2: isodate-0.7.2.dist-info/LICENSE"
+    },
+    {
+      "path": "third_party/licenses/lxml/6.1.1/lxml-6.1.1.dist-info/licenses/LICENSE.txt",
+      "sha256": "8fc2b568133516e46845d2147917adeee1648e70ae9ab5ed6c5417afef4ce855",
+      "origin": "Installed distribution lxml==6.1.1: lxml-6.1.1.dist-info/licenses/LICENSE.txt"
+    },
+    {
+      "path": "third_party/licenses/lxml/6.1.1/lxml-6.1.1.dist-info/licenses/LICENSES.txt",
+      "sha256": "41d49dd406aa0e1548a6d5f21a30d6bf638b3cd96eb7289dd348d83ed2e40392",
+      "origin": "Installed distribution lxml==6.1.1: lxml-6.1.1.dist-info/licenses/LICENSES.txt"
+    },
+    {
+      "path": "third_party/licenses/lxml/6.1.1/resource-notices/RNG2Schtrn.xsl.txt",
+      "sha256": "d3aae649ca0b4fb1e845c8f66e4e593534c5762bf78e314d975c6d4de0de424a",
+      "origin": "https://files.pythonhosted.org/packages/05/3b/aab6728cae887456f409b4d75e8a01856e4f04bd510de38052a47768b680/lxml-6.1.1.tar.gz#src/lxml/isoschematron/resources/xsl/RNG2Schtrn.xsl (original XML comment blocks)"
+    },
+    {
+      "path": "third_party/licenses/lxml/6.1.1/resource-notices/XSD2Schtrn.xsl.txt",
+      "sha256": "834802a44e166c9e6361e4e449c3d948012afed235a488ff1c0204325b714460",
+      "origin": "https://files.pythonhosted.org/packages/05/3b/aab6728cae887456f409b4d75e8a01856e4f04bd510de38052a47768b680/lxml-6.1.1.tar.gz#src/lxml/isoschematron/resources/xsl/XSD2Schtrn.xsl (original XML comment blocks)"
+    },
+    {
+      "path": "third_party/licenses/lxml/6.1.1/resource-notices/iso-schematron.rng.txt",
+      "sha256": "f2ed6ab08b495907d1f320ac25f8654aab9cd4f1ebe766b224e7ec55d5a9fb6b",
+      "origin": "https://files.pythonhosted.org/packages/05/3b/aab6728cae887456f409b4d75e8a01856e4f04bd510de38052a47768b680/lxml-6.1.1.tar.gz#src/lxml/isoschematron/resources/rng/iso-schematron.rng (original XML comment blocks)"
+    },
+    {
+      "path": "third_party/licenses/lxml/6.1.1/resource-notices/iso_abstract_expand.xsl.txt",
+      "sha256": "be4d01140ed3fc1c1a97d66347deacc8e8b7a111a2ff9c228623ec385277bb3e",
+      "origin": "https://files.pythonhosted.org/packages/05/3b/aab6728cae887456f409b4d75e8a01856e4f04bd510de38052a47768b680/lxml-6.1.1.tar.gz#src/lxml/isoschematron/resources/xsl/iso-schematron-xslt1/iso_abstract_expand.xsl (original XML comment blocks)"
+    },
+    {
+      "path": "third_party/licenses/lxml/6.1.1/resource-notices/iso_dsdl_include.xsl.txt",
+      "sha256": "78589838f617f9e61b3b3dd31dbb2072e54ecb15a69ce7b78f8da8182f0e7dfd",
+      "origin": "https://files.pythonhosted.org/packages/05/3b/aab6728cae887456f409b4d75e8a01856e4f04bd510de38052a47768b680/lxml-6.1.1.tar.gz#src/lxml/isoschematron/resources/xsl/iso-schematron-xslt1/iso_dsdl_include.xsl (original XML comment blocks)"
+    },
+    {
+      "path": "third_party/licenses/lxml/6.1.1/resource-notices/iso_schematron_message.xsl.txt",
+      "sha256": "7dee8bbca2cbc2760f9aa8b75be0acc5149ef35521cbe5cb7005b160b677f773",
+      "origin": "https://files.pythonhosted.org/packages/05/3b/aab6728cae887456f409b4d75e8a01856e4f04bd510de38052a47768b680/lxml-6.1.1.tar.gz#src/lxml/isoschematron/resources/xsl/iso-schematron-xslt1/iso_schematron_message.xsl (original XML comment blocks)"
+    },
+    {
+      "path": "third_party/licenses/lxml/6.1.1/resource-notices/iso_schematron_skeleton_for_xslt1.xsl.txt",
+      "sha256": "ece77d4545e53484e31fb06da4acb6f5cbb0e56d2718e4c23bd2dd92404d45de",
+      "origin": "https://files.pythonhosted.org/packages/05/3b/aab6728cae887456f409b4d75e8a01856e4f04bd510de38052a47768b680/lxml-6.1.1.tar.gz#src/lxml/isoschematron/resources/xsl/iso-schematron-xslt1/iso_schematron_skeleton_for_xslt1.xsl (original XML comment blocks)"
+    },
+    {
+      "path": "third_party/licenses/lxml/6.1.1/resource-notices/iso_svrl_for_xslt1.xsl.txt",
+      "sha256": "b1e0fc514962a3a6857bb67608336e8555d6181c4541b7e39be3b8fd95822a62",
+      "origin": "https://files.pythonhosted.org/packages/05/3b/aab6728cae887456f409b4d75e8a01856e4f04bd510de38052a47768b680/lxml-6.1.1.tar.gz#src/lxml/isoschematron/resources/xsl/iso-schematron-xslt1/iso_svrl_for_xslt1.xsl (original XML comment blocks)"
+    },
+    {
+      "path": "third_party/licenses/lxml/6.1.1/upstream/doc/licenses/BSD.txt",
+      "sha256": "69edb445c1335a8312d4c09271847e9956d84f0d9f724d125340cc3fad767b2a",
+      "origin": "https://files.pythonhosted.org/packages/05/3b/aab6728cae887456f409b4d75e8a01856e4f04bd510de38052a47768b680/lxml-6.1.1.tar.gz#doc/licenses/BSD.txt"
+    },
+    {
+      "path": "third_party/licenses/lxml/6.1.1/upstream/doc/licenses/GPL.txt",
+      "sha256": "32b1062f7da84967e7019d01ab805935caa7ab7321a7ced0e30ebe75e5df1670",
+      "origin": "https://files.pythonhosted.org/packages/05/3b/aab6728cae887456f409b4d75e8a01856e4f04bd510de38052a47768b680/lxml-6.1.1.tar.gz#doc/licenses/GPL.txt"
+    },
+    {
+      "path": "third_party/licenses/lxml/6.1.1/upstream/doc/licenses/elementtree.txt",
+      "sha256": "0497ae8138811ef4466ede653bab7a59feb3d3c14f9ed50fc33a00aeb5bec32e",
+      "origin": "https://files.pythonhosted.org/packages/05/3b/aab6728cae887456f409b4d75e8a01856e4f04bd510de38052a47768b680/lxml-6.1.1.tar.gz#doc/licenses/elementtree.txt"
+    },
+    {
+      "path": "third_party/licenses/platformdirs/4.10.0/platformdirs-4.10.0.dist-info/licenses/LICENSE",
+      "sha256": "29e0fd62e929850e86eb28c3fdccf0cefdf4fa94879011cffb3d0d4bed6d4db6",
+      "origin": "Installed distribution platformdirs==4.10.0: platformdirs-4.10.0.dist-info/licenses/LICENSE"
+    },
+    {
+      "path": "third_party/licenses/redis/8.0.1/redis-8.0.1.dist-info/licenses/LICENSE",
+      "sha256": "a57b250a5bf03d7afe55b74063313f2adb7b00d546c0ab149a89398333fe3cc8",
+      "origin": "Installed distribution redis==8.0.1: redis-8.0.1.dist-info/licenses/LICENSE"
+    },
+    {
+      "path": "third_party/licenses/requests-file/3.0.1/requests_file-3.0.1.dist-info/licenses/LICENSE",
+      "sha256": "39ff1bc4e15ffced0047d99689d06f54bb29ce47844927a03eaa29ebb9ac0f17",
+      "origin": "Installed distribution requests-file==3.0.1: requests_file-3.0.1.dist-info/licenses/LICENSE"
+    },
+    {
+      "path": "third_party/licenses/requests-toolbelt/1.0.0/requests_toolbelt-1.0.0.dist-info/AUTHORS.rst",
+      "sha256": "57df198f62c9098aac95c9b8ec1f0b8efc024080f61d5a0ed89ef4c5da3cf031",
+      "origin": "Installed distribution requests-toolbelt==1.0.0: requests_toolbelt-1.0.0.dist-info/AUTHORS.rst"
+    },
+    {
+      "path": "third_party/licenses/requests-toolbelt/1.0.0/requests_toolbelt-1.0.0.dist-info/LICENSE",
+      "sha256": "1f8cf8bdacd98ed6d36d0fec0c07f7765acebd6e81205962ab5146023b3c858d",
+      "origin": "Installed distribution requests-toolbelt==1.0.0: requests_toolbelt-1.0.0.dist-info/LICENSE"
+    },
+    {
+      "path": "third_party/licenses/requests/2.33.0/requests-2.33.0.dist-info/licenses/LICENSE",
+      "sha256": "09e8a9bcec8067104652c168685ab0931e7868f9c8284b66f5ae6edae5f1130b",
+      "origin": "Installed distribution requests==2.33.0: requests-2.33.0.dist-info/licenses/LICENSE"
+    },
+    {
+      "path": "third_party/licenses/requests/2.33.0/requests-2.33.0.dist-info/licenses/NOTICE",
+      "sha256": "f5110972dedad2b4e9d314518daf3b7d72d6e02e499acd802181de6f74571dcc",
+      "origin": "Installed distribution requests==2.33.0: requests-2.33.0.dist-info/licenses/NOTICE"
+    },
+    {
+      "path": "third_party/licenses/setuptools/78.1.1/setuptools-78.1.1.dist-info/licenses/LICENSE",
+      "sha256": "86da0f01aeae46348a3c3d465195dc1ceccde79f79e87769a64b8da04b2a4741",
+      "origin": "Installed distribution setuptools==78.1.1: setuptools-78.1.1.dist-info/licenses/LICENSE"
+    },
+    {
+      "path": "third_party/licenses/setuptools/78.1.1/setuptools/_vendor/autocommand-2.2.2.dist-info/LICENSE",
+      "sha256": "ade78d04982d69972d444a8e14a94f87a2334dd3855cc80348ea8e240aa0df2d",
+      "origin": "Installed distribution setuptools==78.1.1: setuptools/_vendor/autocommand-2.2.2.dist-info/LICENSE"
+    },
+    {
+      "path": "third_party/licenses/setuptools/78.1.1/setuptools/_vendor/backports.tarfile-1.2.0.dist-info/LICENSE",
+      "sha256": "86da0f01aeae46348a3c3d465195dc1ceccde79f79e87769a64b8da04b2a4741",
+      "origin": "Installed distribution setuptools==78.1.1: setuptools/_vendor/backports.tarfile-1.2.0.dist-info/LICENSE"
+    },
+    {
+      "path": "third_party/licenses/setuptools/78.1.1/setuptools/_vendor/importlib_metadata-8.0.0.dist-info/LICENSE",
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+      "origin": "Installed distribution setuptools==78.1.1: setuptools/_vendor/importlib_metadata-8.0.0.dist-info/LICENSE"
+    },
+    {
+      "path": "third_party/licenses/setuptools/78.1.1/setuptools/_vendor/inflect-7.3.1.dist-info/LICENSE",
+      "sha256": "86da0f01aeae46348a3c3d465195dc1ceccde79f79e87769a64b8da04b2a4741",
+      "origin": "Installed distribution setuptools==78.1.1: setuptools/_vendor/inflect-7.3.1.dist-info/LICENSE"
+    },
+    {
+      "path": "third_party/licenses/setuptools/78.1.1/setuptools/_vendor/jaraco.collections-5.1.0.dist-info/LICENSE",
+      "sha256": "86da0f01aeae46348a3c3d465195dc1ceccde79f79e87769a64b8da04b2a4741",
+      "origin": "Installed distribution setuptools==78.1.1: setuptools/_vendor/jaraco.collections-5.1.0.dist-info/LICENSE"
+    },
+    {
+      "path": "third_party/licenses/setuptools/78.1.1/setuptools/_vendor/jaraco.context-5.3.0.dist-info/LICENSE",
+      "sha256": "86da0f01aeae46348a3c3d465195dc1ceccde79f79e87769a64b8da04b2a4741",
+      "origin": "Installed distribution setuptools==78.1.1: setuptools/_vendor/jaraco.context-5.3.0.dist-info/LICENSE"
+    },
+    {
+      "path": "third_party/licenses/setuptools/78.1.1/setuptools/_vendor/jaraco.functools-4.0.1.dist-info/LICENSE",
+      "sha256": "86da0f01aeae46348a3c3d465195dc1ceccde79f79e87769a64b8da04b2a4741",
+      "origin": "Installed distribution setuptools==78.1.1: setuptools/_vendor/jaraco.functools-4.0.1.dist-info/LICENSE"
+    },
+    {
+      "path": "third_party/licenses/setuptools/78.1.1/setuptools/_vendor/jaraco.text-3.12.1.dist-info/LICENSE",
+      "sha256": "86da0f01aeae46348a3c3d465195dc1ceccde79f79e87769a64b8da04b2a4741",
+      "origin": "Installed distribution setuptools==78.1.1: setuptools/_vendor/jaraco.text-3.12.1.dist-info/LICENSE"
+    },
+    {
+      "path": "third_party/licenses/setuptools/78.1.1/setuptools/_vendor/more_itertools-10.3.0.dist-info/LICENSE",
+      "sha256": "09f1c8c9e941af3e584d59641ea9b87d83c0cb0fd007eb5ef391a7e2643c1a46",
+      "origin": "Installed distribution setuptools==78.1.1: setuptools/_vendor/more_itertools-10.3.0.dist-info/LICENSE"
+    },
+    {
+      "path": "third_party/licenses/setuptools/78.1.1/setuptools/_vendor/packaging-24.2.dist-info/LICENSE",
+      "sha256": "cad1ef5bd340d73e074ba614d26f7deaca5c7940c3d8c34852e65c4909686c48",
+      "origin": "Installed distribution setuptools==78.1.1: setuptools/_vendor/packaging-24.2.dist-info/LICENSE"
+    },
+    {
+      "path": "third_party/licenses/setuptools/78.1.1/setuptools/_vendor/packaging-24.2.dist-info/LICENSE.APACHE",
+      "sha256": "0d542e0c8804e39aa7f37eb00da5a762149dc682d7829451287e11b938e94594",
+      "origin": "Installed distribution setuptools==78.1.1: setuptools/_vendor/packaging-24.2.dist-info/LICENSE.APACHE"
+    },
+    {
+      "path": "third_party/licenses/setuptools/78.1.1/setuptools/_vendor/packaging-24.2.dist-info/LICENSE.BSD",
+      "sha256": "b70e7e9b742f1cc6f948b34c16aa39ffece94196364bc88ff0d2180f0028fac5",
+      "origin": "Installed distribution setuptools==78.1.1: setuptools/_vendor/packaging-24.2.dist-info/LICENSE.BSD"
+    },
+    {
+      "path": "third_party/licenses/setuptools/78.1.1/setuptools/_vendor/platformdirs-4.2.2.dist-info/licenses/LICENSE",
+      "sha256": "29e0fd62e929850e86eb28c3fdccf0cefdf4fa94879011cffb3d0d4bed6d4db6",
+      "origin": "Installed distribution setuptools==78.1.1: setuptools/_vendor/platformdirs-4.2.2.dist-info/licenses/LICENSE"
+    },
+    {
+      "path": "third_party/licenses/setuptools/78.1.1/setuptools/_vendor/tomli-2.0.1.dist-info/LICENSE",
+      "sha256": "b80816b0d530b8accb4c2211783790984a6e3b61922c2b5ee92f3372ab2742fe",
+      "origin": "Installed distribution setuptools==78.1.1: setuptools/_vendor/tomli-2.0.1.dist-info/LICENSE"
+    },
+    {
+      "path": "third_party/licenses/setuptools/78.1.1/setuptools/_vendor/typeguard-4.3.0.dist-info/LICENSE",
+      "sha256": "6163f7987dfb38d6bc320ce2b70b2f02b862bc41126516d552ef1cd43247e758",
+      "origin": "Installed distribution setuptools==78.1.1: setuptools/_vendor/typeguard-4.3.0.dist-info/LICENSE"
+    },
+    {
+      "path": "third_party/licenses/setuptools/78.1.1/setuptools/_vendor/typing_extensions-4.12.2.dist-info/LICENSE",
+      "sha256": "3b2f81fe21d181c499c59a256c8e1968455d6689d269aa85373bfb6af41da3bf",
+      "origin": "Installed distribution setuptools==78.1.1: setuptools/_vendor/typing_extensions-4.12.2.dist-info/LICENSE"
+    },
+    {
+      "path": "third_party/licenses/setuptools/78.1.1/setuptools/_vendor/wheel-0.45.1.dist-info/LICENSE.txt",
+      "sha256": "30c23618679108f3e8ea1d2a658c7ca417bdfc891c98ef1a89fa4ff0c9828654",
+      "origin": "Installed distribution setuptools==78.1.1: setuptools/_vendor/wheel-0.45.1.dist-info/LICENSE.txt"
+    },
+    {
+      "path": "third_party/licenses/setuptools/78.1.1/setuptools/_vendor/wheel/vendored/packaging/LICENSE",
+      "sha256": "cad1ef5bd340d73e074ba614d26f7deaca5c7940c3d8c34852e65c4909686c48",
+      "origin": "Installed distribution setuptools==78.1.1: setuptools/_vendor/wheel/vendored/packaging/LICENSE"
+    },
+    {
+      "path": "third_party/licenses/setuptools/78.1.1/setuptools/_vendor/wheel/vendored/packaging/LICENSE.APACHE",
+      "sha256": "0d542e0c8804e39aa7f37eb00da5a762149dc682d7829451287e11b938e94594",
+      "origin": "Installed distribution setuptools==78.1.1: setuptools/_vendor/wheel/vendored/packaging/LICENSE.APACHE"
+    },
+    {
+      "path": "third_party/licenses/setuptools/78.1.1/setuptools/_vendor/wheel/vendored/packaging/LICENSE.BSD",
+      "sha256": "b70e7e9b742f1cc6f948b34c16aa39ffece94196364bc88ff0d2180f0028fac5",
+      "origin": "Installed distribution setuptools==78.1.1: setuptools/_vendor/wheel/vendored/packaging/LICENSE.BSD"
+    },
+    {
+      "path": "third_party/licenses/setuptools/78.1.1/setuptools/_vendor/zipp-3.19.2.dist-info/LICENSE",
+      "sha256": "86da0f01aeae46348a3c3d465195dc1ceccde79f79e87769a64b8da04b2a4741",
+      "origin": "Installed distribution setuptools==78.1.1: setuptools/_vendor/zipp-3.19.2.dist-info/LICENSE"
+    },
+    {
+      "path": "third_party/licenses/setuptools/78.1.1/setuptools/config/NOTICE",
+      "sha256": "2dddf08818297a3b89d43d95ff659d8da85741108c9136dfa3a4d856c0623bd8",
+      "origin": "Installed distribution setuptools==78.1.1: setuptools/config/NOTICE"
+    },
+    {
+      "path": "third_party/licenses/setuptools/78.1.1/setuptools/config/_validate_pyproject/NOTICE",
+      "sha256": "5d300dbfa643138b013b75ac9caeee591f951b8b0ee24288c34ccd926c4780c8",
+      "origin": "Installed distribution setuptools==78.1.1: setuptools/config/_validate_pyproject/NOTICE"
+    },
+    {
+      "path": "third_party/licenses/supplemental/MPL-2.0.txt",
+      "sha256": "3f3d9e0024b1921b067d6f7f88deb4a60cbe7a78e76c64e3f1d7fc3b779b9d04",
+      "origin": "https://www.mozilla.org/media/MPL/2.0/index.txt"
+    },
+    {
+      "path": "third_party/licenses/supplemental/libxml2-Copyright.txt",
+      "sha256": "5d4873884a890122a4b9b20ad56ac6f7da1d796a5bfcf04a427970ac96217626",
+      "origin": "https://raw.githubusercontent.com/GNOME/libxml2/v2.14.6/Copyright"
+    },
+    {
+      "path": "third_party/licenses/supplemental/libxslt-Copyright.txt",
+      "sha256": "7e48e290b6bfccc2ec1b297023a1d77f2fd87417f71fbb9f50aabef40a851819",
+      "origin": "https://raw.githubusercontent.com/GNOME/libxslt/v1.1.43/Copyright"
+    },
+    {
+      "path": "third_party/licenses/urllib3/2.7.0/urllib3-2.7.0.dist-info/licenses/LICENSE.txt",
+      "sha256": "130e3a64d5fdd5d096a752694634a7d9df284469de86e5732100268041e3d686",
+      "origin": "Installed distribution urllib3==2.7.0: urllib3-2.7.0.dist-info/licenses/LICENSE.txt"
+    },
+    {
+      "path": "third_party/licenses/zeep/4.3.3/zeep-4.3.3.dist-info/licenses/LICENSE",
+      "sha256": "0c382b057f478f84d2a13e0f2d281e2dbfc541eb83d55cb785c0265af99c53f5",
+      "origin": "Installed distribution zeep==4.3.3: zeep-4.3.3.dist-info/licenses/LICENSE"
+    }
+  ]
+}
