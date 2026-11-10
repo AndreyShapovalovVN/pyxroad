@@ -64,6 +64,9 @@ exclude = [
 [tool.ruff]
 target-version = "py310"
 
+[tool.ruff.lint]
+extend-ignore = ["N999"]
+
 [tool.black]
 line-length = 100
 target-version = ["py310", "py311", "py312"]

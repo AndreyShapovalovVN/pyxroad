@@ -1,6 +1,6 @@
 import hashlib
 import logging
-from typing import Any, Optional, cast
+from typing import Any, cast
 
 from zeep.cache import Base, InMemoryCache
 
@@ -8,6 +8,7 @@ _logger = logging.getLogger(__name__)
 
 try:
     from redis import Redis
+    from redis.exceptions import RedisError
 except ImportError:
     Redis = None  # type: ignore[assignment, misc]
 
@@ -32,7 +33,7 @@ class RedisCache(Base):
 
     _version = "1"
     
-    redis_client: Optional[Any]
+    redis_client: Any | None
 
     def __new__(cls,  path: str | Any | None = None, timeout: int = 3600):
         if Redis is None:
@@ -48,7 +49,7 @@ class RedisCache(Base):
 
         try:
             redis_client.ping()
-        except Exception as e:
+        except RedisError as e:
             _logger.warning("Could not connect to Redis: %s. Caching will not be available. Error: %s", path, e)
             return InMemoryCache(timeout=timeout)
 
