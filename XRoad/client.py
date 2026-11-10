@@ -183,3 +183,33 @@ class XClient(Client):
         self._default_soapheaders["userId"] = value
         self.set_default_soapheaders(self._default_soapheaders)
         _logger.debug("Set (userId: %s)", value)
+
+    @property
+    def issue(self) -> str | None:
+        """
+        Provides access to the issue obtained from default SOAP headers.
+
+        This property is a getter that retrieves the value of the "issue" field
+        from the default SOAP headers set in the object. It is meant to provide a
+        convenient way to access this specific information if it exists in the
+        SOAP headers.
+
+        :rtype: String
+        :return: The value of "issue" from the default SOAP headers if it exists,
+            otherwise returns None.
+        """
+        return self._default_soapheaders.get("issue")  # type: ignore[no-any-return]
+
+    @issue.setter
+    def issue(self, value: str):
+        """
+        Sets the issue value into the default SOAP headers and updates the headers accordingly.
+        Logs the issue value upon setting for debugging purposes.
+
+        :param value: The issue value to be set in the default SOAP headers.
+        :type value: String
+        """
+
+        self._default_soapheaders["issue"] = value
+        self.set_default_soapheaders(self._default_soapheaders)
+        _logger.debug("Set (issue: %s)", value)

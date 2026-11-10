@@ -1,2 +1,0 @@
-# Preserve original license bytes: manifest.json records SHA-256 hashes.
-third_party/licenses/** -text

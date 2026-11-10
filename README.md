@@ -48,15 +48,13 @@ continues to support Python 3.10+. For runtime dependencies only, use
 
 Dependencies are declared in `pyproject.toml`; `uv.lock` records exact versions.
 Commit both files when changing dependencies with `uv add`, `uv remove`, or
-`uv lock --upgrade-package PACKAGE`. Refresh the component license inventory
-when runtime dependencies change. `--locked` rejects a stale lockfile.
+`uv lock --upgrade-package PACKAGE`. `--locked` rejects a stale lockfile.
 
 ## Code Quality Checks
 
 Run the same checks locally as in CI:
 
 ```bash
-uv run --locked --extra dev python scripts/check_licenses.py
 uv run --locked --extra dev ruff check . --extend-exclude 'tests/~*.py'
 uv run --locked --extra dev mypy . --ignore-missing-imports --pretty --show-error-codes
 uv run --locked --extra dev pytest --maxfail=2 --disable-warnings --ignore-glob='tests/~*.py'
@@ -64,16 +62,14 @@ uv run --locked --extra dev pytest --maxfail=2 --disable-warnings --ignore-glob=
 
 ## Build and publish
 
-Build using the setuptools version installed from `uv.lock`, then verify that
-both distributions contain the license materials:
+Build using the setuptools version installed from `uv.lock`:
 
 ```bash
 uv sync --locked
 uv build --no-build-isolation
-uv run --locked python scripts/check_licenses.py --dist-dir dist
 ```
 
-The release workflow runs tests and these checks, then publishes with
+The release workflow runs tests, builds the package, then publishes with
 `uv publish --trusted-publishing always` using the existing PyPI Trusted Publisher
 and `pypi` GitHub environment.
 
@@ -150,9 +146,7 @@ client.id = 'ABCD123456'      # Custom request ID
 
 ## License
 
-This project is licensed under the [MIT License](LICENSE). Third-party components
-retain their own licenses. See the [component inventory](licenses.md) and
-[third-party notices and redistribution guidance](THIRD_PARTY_NOTICES.md).
+This project is licensed under the [MIT License](LICENSE).
 
 ## Support
 

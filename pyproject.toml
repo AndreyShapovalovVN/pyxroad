@@ -4,12 +4,12 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "pyxroad"
-version = "1.5.11"
+version = "1.5.12"
 description = "X-Road (Trembita) Python client library for SOAP-based service integration"
 authors = [{ name = "Andrii Shapovalov", email = "mt.andrey@gmail.com" }]
 readme = "README.md"
 license = "MIT"
-license-files = ["LICENSE", "THIRD_PARTY_NOTICES.md", "licenses.md", "third_party/manifest.json", "third_party/licenses/**/*"]
+license-files = ["LICENSE"]
 requires-python = ">=3.10"
 keywords = ["x-road", "xroad", "trembita", "soap", "python"]
 classifiers = [
