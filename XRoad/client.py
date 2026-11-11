@@ -9,6 +9,7 @@ from zeep.exceptions import Fault
 from zeep.helpers import serialize_object
 from zeep.transports import Transport
 
+from .headers import XROAD_NAMESPACE, XRoadServiceProxy, serialize_headers
 from .Members import Members
 
 _logger = logging.getLogger("XRoad")
@@ -78,7 +79,7 @@ class XClient(Client):
 
         self.transport.session.proxies.update({"http": ssu, })
 
-        self.set_ns_prefix("xro", "https://x-road.eu/xsd/xroad.xsd")
+        self.set_ns_prefix("xro", XROAD_NAMESPACE)
         self.set_ns_prefix("iden", "https://x-road.eu/xsd/identifiers")
 
         self.set_default_soapheaders(
@@ -91,6 +92,19 @@ class XClient(Client):
             }
         )
         _logger.debug("Default header (%s)", self._default_soapheaders)
+
+    def bind(self, service_name=None, port_name=None):
+        return XRoadServiceProxy.wrap(super().bind(service_name, port_name))
+
+    def create_service(self, binding_name, address):
+        return XRoadServiceProxy.wrap(super().create_service(binding_name, address))
+
+    def create_message(self, service, operation_name, *args, **kwargs):
+        if "_soapheaders" in kwargs:
+            kwargs["_soapheaders"] = serialize_headers(
+                service._binding, operation_name, kwargs["_soapheaders"]
+            )
+        return super().create_message(service, operation_name, *args, **kwargs)
 
     def request(self, **kwargs):
         """
@@ -186,30 +200,15 @@ class XClient(Client):
 
     @property
     def issue(self) -> str | None:
-        """
-        Provides access to the issue obtained from default SOAP headers.
-
-        This property is a getter that retrieves the value of the "issue" field
-        from the default SOAP headers set in the object. It is meant to provide a
-        convenient way to access this specific information if it exists in the
-        SOAP headers.
-
-        :rtype: String
-        :return: The value of "issue" from the default SOAP headers if it exists,
-            otherwise returns None.
-        """
+        """The application, issue or document that caused the service request."""
         return self._default_soapheaders.get("issue")  # type: ignore[no-any-return]
 
     @issue.setter
-    def issue(self, value: str):
-        """
-        Sets the issue value into the default SOAP headers and updates the headers accordingly.
-        Logs the issue value upon setting for debugging purposes.
+    def issue(self, value: str | None):
+        """Set the optional issue header, even when it is absent from the WSDL.
 
-        :param value: The issue value to be set in the default SOAP headers.
-        :type value: String
+        Set to None to omit it. Undeclared headers are serialized as XML
+        elements before plugins and WS-Security signing.
         """
-
         self._default_soapheaders["issue"] = value
-        self.set_default_soapheaders(self._default_soapheaders)
         _logger.debug("Set (issue: %s)", value)

@@ -152,3 +152,31 @@ This project is licensed under the [MIT License](LICENSE).
 
 For issues, questions, and contributions, please visit:
 https://github.com/AndreyShapovalovVN/pyxroad
+
+## Additional SOAP headers
+
+Dictionary headers declared by the operation's WSDL retain Zeep's schema
+validation. Undeclared headers are serialized as XML elements before plugins and
+WS-Security signing. Unqualified names use `http://x-road.eu/xsd/xroad.xsd`;
+use `{namespace}name` for a different namespace.
+
+```python
+client.issue = "case-123"
+client.request(_soapheaders={
+    "trackingId": "trace-456",
+    "{urn:my-service}source": "portal",
+})
+```
+
+Per-call values override dictionary defaults set with `set_default_soapheaders()`.
+That method replaces the defaults, following Zeep's behavior, so include the
+required X-Road headers when using it. `client.issue` remains a convenience
+property for the `issue` default header.
+
+Undeclared values may be strings, booleans, integers, floats, or `Decimal` values.
+`None` omits an undeclared header, including a default overridden for one call.
+For nested content or XML attributes, pass an `lxml.etree.Element` value whose
+qualified tag matches the dictionary key. Dictionaries and lists are not guessed
+into an XML structure. Zeep's list-based header API remains supported when both
+default and per-call headers use lists. As in Zeep, `create_message()` uses only
+explicitly supplied headers, without merging defaults.
